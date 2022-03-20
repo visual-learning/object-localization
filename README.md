@@ -73,19 +73,20 @@ $ wget http://www.cs.cmu.edu/~spurushw/hw2_files/selective_search_data.tar && ta
 ```
 Alternatively, the selective search data can also be found at the following link: https://drive.google.com/drive/folders/1jRQOlAYKNFgS79Q5q9kfikyGE91LWv1I
 
-## Task 0: Visualization and Understanding the Data Structures
+## Task 0: Visualization and Understanding the Data Structures [10 pts]
 We will be building on code from the previous assignment, this time to include information about bounding boxes and region proposals in our dataloaders.
 
 ### Modifying the Dataloader #
 You will have to modify the VOCDataset class in `voc_dataset.py` to return bounding boxes, classes corresponding to the bounding boxes, as well as selective search region proposals. Check the `TODO` in `voc_dataset.py` and make changes wherever necessary. Once this is done, you will use Wandb to visualize the bounding boxes. The file `task_0.ipynb` has detailed instructions for this task.
 
-#### Q 0.1: What classes does the image at index 2020 contain (index 2020 is the 2021-th image due to 0-based numbering)?
-#### Q 0.2: You might have noticed that each image has a certain number of proposals from selective search. Often, this number is a lot more than we require. What is the easiest way to select the most informative regions? (Hint: look at the scores corresponding to each proposal in `voc_2007_trainval.mat`).
-#### Q 0.3 Use Wandb to visualize the ground-truth bounding box and the class for the image at index 2020.
-#### Q 0.4 Use Wandb to visualize the top ten bounding box proposals for the image at index 2020.
+#### Q 0.1: What classes does the image at index 2020 contain (index 2020 is the 2021-th image due to 0-based numbering)? [2 pts]
+#### Q 0.2: You might have noticed that each image has a certain number of proposals from selective search. Often, this number is a lot more than we require. What is the easiest way to select the most informative regions? (Hint: look at the scores corresponding to each proposal in `voc_2007_trainval.mat`). [2 pts]
+#### Q 0.3 Use Wandb to visualize the ground-truth bounding box and the class for the image at index 2020. [3 pts]
+#### Q 0.4 Use Wandb to visualize the top ten bounding box proposals for the image at index 2020. [3 pts]
 
 
-## Task 1: Is Object Localization Free?
+## Task 1: Is Object Localization Free? [50 pts]
+
 A good way to dive into using PyTorch is training a simple classification model on ImageNet. 
 We won't be doing that to save the rainforest (and AWS credits) but you should take a look at the code [here](https://github.com/pytorch/examples/blob/master/imagenet/main.py). We will be following the same structure.
 
@@ -117,9 +118,9 @@ LocalizerAlexNet(
 )
 ```
 
-#### Q 1.1 Fill in each of the TODO parts except for the functions ``metric1``, ``metric2`` and ``LocalizerAlexNetRobust``. In the report, for each of the TODO, describe the functionality of that part. The output of the above model has some spatial resolution. Make sure you read paper [1] and understand how to go from the output to an image level prediction (max-pool). (Hint: This part will be implemented in ``train()`` and ``validate()``.
+#### Q 1.1 Fill in each of the TODO parts except for the functions ``metric1``, ``metric2`` and ``LocalizerAlexNetRobust``. In the report, for each of the TODO, describe the functionality of that part. The output of the above model has some spatial resolution. Make sure you read paper [1] and understand how to go from the output to an image level prediction (max-pool). (Hint: This part will be implemented in ``train()`` and ``validate()``. [2 pts]
 
-#### Q 1.2 What is the output resolution of the model?
+#### Q 1.2 What is the output resolution of the model? [3 pts]
 
 #### Plotting using Weights and Biases
 Logging to [Weights and Biases](https://docs.wandb.ai/quickstart), also known as `wandb` is quite easy and super useful. You can use this to keep track of experiment hyperparameters and metrics such as loss/accuracy.
@@ -133,36 +134,36 @@ You can also use it to save models, perform hyperparameter tuning, share your re
 
 When you're logging to WandB, make sure you use good tag names. For example, for all training plots you can use ``train/loss``, ``train/metric1``, etc and for validation ``validation/metric1``, etc.
 
-#### Q 1.3 Initialize the model from ImageNet (till the conv5 layer). Initialize the rest of layers with Xavier initialization and train the model using batchsize=32, learning rate=0.01, epochs=2 (Yes, only 2 epochs for now).(Hint: also try lr=0.1 - best value varies with implementation of loss)
+#### Q 1.3 Initialize the model from ImageNet (till the conv5 layer). Initialize the rest of layers with Xavier initialization and train the model using batchsize=32, learning rate=0.01, epochs=2 (Yes, only 2 epochs for now).(Hint: also try lr=0.1 - best value varies with implementation of loss) [10 pts]
 - Use wandb to plot the training loss curve.
 - Use wandb to plot images and the rescaled heatmaps for only the GT classes for 2 batches (1 images in each batch) in every epoch (uniformly spaced in iterations).
 
-#### Q 1.4 In the first few iterations, you should observe a steep drop in the loss value. Why does this happen? (Hint: Think about the labels associated with each image).
+#### Q 1.4 In the first few iterations, you should observe a steep drop in the loss value. Why does this happen? (Hint: Think about the labels associated with each image). [2 pts]
 
-#### Q 1.5 We will log two metrics during training to see if our model is improving progressively with iterations. The first metric is a standard metric for multi-label classification. Do you remember what this is? Write the code for this metric in the TODO block for ``metric1`` (make sure you handle all the boundary cases). However, ``metric1`` is to some extent not robust to the issue we identified in Q1.4. The second metric, Recall, is more tuned to this dataset. Even though there is a steep drop in loss in the first few iterations ``metric2`` should remain almost constant. Implement it in the TODO block for ``metric2``. (Make any assumptions needed - like thresholds).
+#### Q 1.5 We will log two metrics during training to see if our model is improving progressively with iterations. The first metric is a standard metric for multi-label classification. Do you remember what this is? Write the code for this metric in the TODO block for ``metric1`` (make sure you handle all the boundary cases). However, ``metric1`` is to some extent not robust to the issue we identified in Q1.4. The second metric, Recall, is more tuned to this dataset. Even though there is a steep drop in loss in the first few iterations ``metric2`` should remain almost constant. Implement it in the TODO block for ``metric2``. (Make any assumptions needed - like thresholds). [3 pts]
 
 ### We're ready to train now!
 
-#### Q 1.6 Initialize the model from ImageNet (till the conv5 layer), initialize the rest of layers with Xavier initialization and train the model using batchsize=32, learning rate=0.01, epochs=30. Evaluate every 2 epochs. (Hint: also try lr=0.1 - best value varies with implementation of loss) \[Expected training time: 45mins-75mins].
+#### Q 1.6 Initialize the model from ImageNet (till the conv5 layer), initialize the rest of layers with Xavier initialization and train the model using batchsize=32, learning rate=0.01, epochs=30. Evaluate every 2 epochs. (Hint: also try lr=0.1 - best value varies with implementation of loss) \[Expected training time: 45mins-75mins].  [15 pts]
 - IMPORTANT: FOR ALL EXPERIMENTS FROM HERE - ENSURE THAT THE SAME IMAGES ARE PLOTTED ACROSS EXPERIMENTS BY KEEPING THE SAMPLED BATCHES IN THE SAME ORDER. THIS CAN BE DONE BY FIXING THE RANDOM SEEDS BEFORE CREATING DATALOADERS.
-- Use wandb to plot the training loss curve, training ``metric1``, training ``metric2``
-- Use wandb to plot the mean validation ``metric1`` and mean validation ``metric2`` for every 2 epochs.
-- Use wandb to plot images and the rescaled heatmaps for only the GT classes for 2 batches (1 images in each batch) at the end of the 1st, 15th, and last(30th) epoch. 
+- Use wandb to plot the training loss curve, training ``metric1``, training ``metric2`` [2.5 pts]
+- Use wandb to plot the mean validation ``metric1`` and mean validation ``metric2`` for every 2 epochs. [2.5 pts]
+- Use wandb to plot images and the rescaled heatmaps for only the GT classes for 2 batches (1 images in each batch) at the end of the 1st, 15th, and last(30th) epoch. [4 pts]
 
-- At the end of training, use wandb to plot 3 randomly chosen images and corresponding heatmaps (similar to above) from the validation set.
-- In your report, mention the training loss, training and validation ``metric1`` and ``metric2`` achieved at the end of training. 
+- At the end of training, use wandb to plot 3 randomly chosen images and corresponding heatmaps (similar to above) from the validation set. [3 pts]
+- In your report, mention the training loss, training and validation ``metric1`` and ``metric2`` achieved at the end of training. [3 pts]
 
 
 #### Q 1.7 In the heatmap visualizations you observe that there are usually peaks on salient features of the objects but not on the entire objects. How can you fix this in the architecture of the model? (Hint: during training the max-pool operation picks the most salient location). Implement this new model in ``LocalizerAlexNetRobust`` and also implement the corresponding ``localizer_alexnet_robust()``. Train the model using batchsize=32, learning rate=0.01, epochs=45. Evaluate every 2 epochs.(Hint: also try lr=0.1 - best value varies with implementation of loss)
 - Hints:
     - You do not have to change the backbone AlexNet for implementing this. Think about how the network may try to use certain salient parts of the object more and what maybe a quick and easy way to prevent it.
-- For this question only visualize images and heatmaps using wandb at similar intervals as before (ensure that the same images are plotted). 
+- For this question only visualize images and heatmaps using wandb at similar intervals as before (ensure that the same images are plotted). [5 pts]
 - You don't have to plot the rest of the quantities that you did for previous questions (if you haven't put flags to turn off logging the other quantities, it's okay to log them too - just don't add them to the report).
-- At the end of training, use wandb to plot 3 randomly chosen images (same images as Q1.6) and corresponding heatmaps from the validation set.
-- Report the training loss, training and validation ``metric1`` and ``metric2`` achieved at the end of training. 
+- At the end of training, use wandb to plot 3 randomly chosen images (same images as Q1.6) and corresponding heatmaps from the validation set. [5 pts]
+- Report the training loss, training and validation ``metric1`` and ``metric2`` achieved at the end of training. [5 pts]
 
 
-## Task 2: Weakly Supervised Deep Detection Networks
+## Task 2: Weakly Supervised Deep Detection Networks [40 pts]
 
 First, make sure you understand the WSDDN model. 
 
@@ -204,10 +205,11 @@ At this point, we have our model giving us (N_boxes x 20) scores. We can interpr
 
 
 #### Q2.4 In ``task_2.py``, there are places for you perform visualization (search for TODO). You need to perform the appropriate visualizations mentioned here:
-- Plot the average loss every 500 iterations (feel free to use the AverageMeter class from `task_1.py`) using wandb. 
-- Use wandb to plot mAP on the *test* set every epoch.
-- Plot the class-wise APs at every epoch.
-- Plot bounding boxes on 10 random images at the end of the first epoch, and at the end of the last epoch. (You can visualize for more images, and choose whichever ones you feel represent the learning of the network the best. It's also interesting to see the kind of mistakes the network makes as it is learning, and also after it has learned a little bit!)
+- Plot the loss every 500 iterations (feel free to use the AverageMeter class from `task_1.py`) using wandb. [5 pts]
+- Use wandb to plot mAP on the *test* set every epoch. [5 pts]
+- Plot the class-wise APs at every epoch. [10 pts]
+- Plot bounding boxes on 10 random images at the end of the first epoch, and at the end of the last epoch. (You can visualize for more images, and choose whichever ones you feel represent the learning of the network the best. It's also interesting to see the kind of mistakes the network makes as it is learning, and also after it has learned a little bit!) [10 pts]
+
 
 #### Q2.5 Train the model using the hyperparameters provided for 5-6 epochs.
 The expected values for the metrics at the end of training are:
@@ -220,7 +222,7 @@ Some caveats for Train loss and Test mAP:
 - Test AP (for detection) can show variance across different classes hence look at the mean value (mAP).
 
 Include all the code and images/logs after training.
-Report the final class-wise AP on the test set and the mAP.
+Report the final class-wise AP on the test set and the mAP. [10 pts]
 
 
 
