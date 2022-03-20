@@ -71,6 +71,7 @@ $ cd data/VOCdevkit/VOC2007/
 $ # Download the selective search data
 $ wget http://www.cs.cmu.edu/~spurushw/hw2_files/selective_search_data.tar && tar xf selective_search_data.tar
 ```
+Alternatively, the selective search data can also be found at the following link: https://drive.google.com/drive/folders/1jRQOlAYKNFgS79Q5q9kfikyGE91LWv1I
 
 ## Task 0: Visualization and Understanding the Data Structures [10 pts]
 We will be building on code from the previous assignment, this time to include information about bounding boxes and region proposals in our dataloaders.
@@ -129,7 +130,7 @@ wandb.init(project="vlr-hw2")
 # logging the loss
 wandb.log({'epoch': epoch, 'loss': loss})
 ```
-You can also use it to save models, perform hyperparameter tuning, and other cool stuff.
+You can also use it to save models, perform hyperparameter tuning, share your results with others, collate different runs together and other cool stuff. 
 
 When you're logging to WandB, make sure you use good tag names. For example, for all training plots you can use ``train/loss``, ``train/metric1``, etc and for validation ``validation/metric1``, etc.
 
@@ -153,7 +154,9 @@ When you're logging to WandB, make sure you use good tag names. For example, for
 - In your report, mention the training loss, training and validation ``metric1`` and ``metric2`` achieved at the end of training. [3 pts]
 
 
-#### Q 1.7 In the heatmap visualizations you observe that there are usually peaks on salient features of the objects but not on the entire objects. How can you fix this in the architecture of the model? (Hint: during training the max-pool operation picks the most salient location). Implement this new model in ``LocalizerAlexNetRobust`` and also implement the corresponding ``localizer_alexnet_robust()``. Train the model using batchsize=32, learning rate=0.01, epochs=45. Evaluate every 2 epochs.(Hint: also try lr=0.1 - best value varies with implementation of loss) [15 pts]
+#### Q 1.7 In the heatmap visualizations you observe that there are usually peaks on salient features of the objects but not on the entire objects. How can you fix this in the architecture of the model? (Hint: during training the max-pool operation picks the most salient location). Implement this new model in ``LocalizerAlexNetRobust`` and also implement the corresponding ``localizer_alexnet_robust()``. Train the model using batchsize=32, learning rate=0.01, epochs=45. Evaluate every 2 epochs.(Hint: also try lr=0.1 - best value varies with implementation of loss)
+- Hints:
+    - You do not have to change the backbone AlexNet for implementing this. Think about how the network may try to use certain salient parts of the object more and what maybe a quick and easy way to prevent it.
 - For this question only visualize images and heatmaps using wandb at similar intervals as before (ensure that the same images are plotted). [5 pts]
 - You don't have to plot the rest of the quantities that you did for previous questions (if you haven't put flags to turn off logging the other quantities, it's okay to log them too - just don't add them to the report).
 - At the end of training, use wandb to plot 3 randomly chosen images (same images as Q1.6) and corresponding heatmaps from the validation set. [5 pts]
@@ -179,10 +182,11 @@ The `__init__()` function will be used to define the model. You can define 3 par
 3. A classifier layer, as defined in the WSDDN paper.
 
 The `forward()` function will essentially do the following:
-1. Extract features from a given image (notice that batch size is 1 here).
+1. Extract features from a given image (notice that batch size is 1 here). Feel free to use AlexNet code as backbone from the first part of the assignment.
 2. Use the regions proposed from Selective Search, perform ROI Pooling. There are 2 caveats here - ensure that the proposals are now absolute values of pixels in the input image, and ensure that the scale factor passed into the ROI Pooling layer works correctly for the given image and features [ref](https://discuss.pytorch.org/t/spatial-scale-in-torchvision-ops-roi-pool/59270).
-3. For each image, ROI Pooling gives us a feature map for the proposed regions. Pass these features into the classifier subnetwork. Here, you can think of batch size being the number of region proposals for each image.
-4. Combine the classifier outputs (for boxes and classes), which will give you a tensor of shape (N_boxes x 20). Return this.
+    - Note that for the scale factor in ROI Pooling closely depends on the coordinate values in your ROIs (i.e. wether these values are scaled or not). Make sure you understand the ROI pooling API when using this function.
+4. For each image, ROI Pooling gives us a feature map for the proposed regions. Pass these features into the classifier subnetwork. Here, you can think of batch size being the number of region proposals for each image.
+5. Combine the classifier outputs (for boxes and classes), which will give you a tensor of shape (N_boxes x 20). Return this.
 
 The `build_loss()` function now computes classification loss, which can be accessed in the training loop.
 
@@ -201,15 +205,21 @@ At this point, we have our model giving us (N_boxes x 20) scores. We can interpr
 
 
 #### Q2.4 In ``task_2.py``, there are places for you perform visualization (search for TODO). You need to perform the appropriate visualizations mentioned here:
-- Plot the loss every 500 iterations using wandb. [5 pts]
+- Plot the loss every 500 iterations (feel free to use the AverageMeter class from `task_1.py`) using wandb. [5 pts]
 - Use wandb to plot mAP on the *test* set every epoch. [5 pts]
 - Plot the class-wise APs at every epoch. [10 pts]
 - Plot bounding boxes on 10 random images at the end of the first epoch, and at the end of the last epoch. (You can visualize for more images, and choose whichever ones you feel represent the learning of the network the best. It's also interesting to see the kind of mistakes the network makes as it is learning, and also after it has learned a little bit!) [10 pts]
+
 
 #### Q2.5 Train the model using the hyperparameters provided for 5-6 epochs.
 The expected values for the metrics at the end of training are:
 - Train Loss: ~1.0
 - Test  mAP : ~0.13
+
+Some caveats for Train loss and Test mAP:
+- If your loss does not go down or is too unstable, try lowering the learning rate. 
+- In case you have tried a lot and still cannot get a loss around ~1.0 then add *one plot for all of your valid tries* and add it to the report. Also, add 2-3 lines on what you believe is the reason for the observed behavior.
+- Test AP (for detection) can show variance across different classes hence look at the mean value (mAP).
 
 Include all the code and images/logs after training.
 Report the final class-wise AP on the test set and the mAP. [10 pts]
