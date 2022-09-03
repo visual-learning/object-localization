@@ -1,29 +1,30 @@
-# Assignment 2: Weakly Supervised Object Localization
+# Assignment 1: Weakly Supervised Object Localization
 
-- [Visual Learning and Recognition (16-824) Spring 2021](https://visual-learning.cs.cmu.edu/)
-- Updated by: [Sanil Pande](https://sanilpande.github.io/)
+- [Visual Learning and Recognition (16-824) Fall 2022](https://visual-learning.cs.cmu.edu/)
+- Updated by: [Anirudh Chakravarthy](https://anirudh-chakravarthy.github.io/) and [Sai Shruthi Balaji](https://www.linkedin.com/in/sai-shruthi-balaji/)
 - Created by : [Senthil Purushwalkam](http://www.cs.cmu.edu/~spurushw/)
-- TAs: [Sanil Pande](https://sanilpande.github.io/), [Sudeep Dasari](https://sudeepdasari.github.io/), [Ziyan Wang](https://ziyanw1.github.io/)
+- TAs: [Anirudh Chakravarthy](https://anirudh-chakravarthy.github.io/), [Sai Shruthi Balaji](https://www.linkedin.com/in/sai-shruthi-balaji/), [Vanshaj Chowdhary](https://www.linkedin.com/in/vanshajchowdhary/), and [Nikos Gkanatsios](https://nickgkan.github.io/).
 
 - We will be keeping an updated FAQ on piazza. Please check the FAQ post before posting a question.
-- Due date: March 29th, 2021 at 11:59pm EST.
+- Due date: Oct 3rd, 2022 at 11:59pm EST.
 - Total points: 100
 
-In this assignment, we will learn to train object detectors in the *weakly supervised* setting, which means you're going to train object detectors without bounding box annotations!
+## Introduction
+
+In this assignment, we will learn to train object detectors without bounding box annotations! First, in task 1, we will use classification models and examine their backbone features for object localization cues. In task 2, we will train object detectors in the *weakly supervised* setting, which means we're going to train an object detector without bounding box annotations!
 
 We will use the [PyTorch](pytorch.org) framework to design our models, train and test them. We will also be using [Weights and Biases](https://wandb.ai/site) for visualizations and to log our metrics. This assignment borrows heavily from the [previous version](https://bitbucket.org/cmu16824_spring2020/2020_hw2_release/src/master/), but is now upgraded to Python 3, and does not depend upon the now deprecated Faster-RCNN repository.
 
+## Readings
+
 We will be implementing slightly simplified versions of the following approaches in this assignment:
 
+<!-- % TODO(achakrav): move paper readings near each task. Paper 1 was not useful for the assignment. -->
 1. Oquab, Maxime, et al. "*Is object localization for free?-weakly-supervised learning with convolutional neural networks.*" Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition. 2015. [Link](https://www.di.ens.fr/~josef/publications/Oquab15.pdf)
 2. Bilen, Hakan, and Andrea Vedaldi. "*Weakly supervised deep detection networks*." Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition. 2016. [Link](https://www.robots.ox.ac.uk/~vgg/publications/2016/Bilen16/bilen16.pdf)
 
-You should read these papers first. We will train and test using the [PASCAL VOC 2007](http://host.robots.ox.ac.uk/pascal/VOC/voc2007/index.html) data. The Pascal VOC dataset comes with bounding box annotations, however, we will not use bounding box annotations in the weakly supervised setting. 
 
-In all the following tasks, coding and analysis, please write a short summary of what you tried, what worked (or didn't), and what you learned, in the report. Write the code into the files as specified. Submit a zip file (`ANDREWID.zip`) with all the code files, and a single `REPORT.pdf`, which should have commands that TAs can run to re-produce your results/visualizations etc. Also mention any collaborators or other sources used for different parts of the assignment.
-
-
-## Software Setup
+## Environment Setup
 
 If you are using AWS instance setup using the provided instructions, you should already have most of the requirements installed on your machine. In any case, you would need the following Python libraries installed:
 
@@ -49,7 +50,10 @@ $ conda install -c conda-forge wandb
 ```
 
 ### Data setup
-1. Similar to Assignment 1, we first need to download the image dataset and annotations. If you already have the data from the last assignment, you can skip this step. Use the following commands to setup the data, and lets say it is stored at location `$DATA_DIR`.
+
+We will train and test using the [PASCAL VOC 2007](http://host.robots.ox.ac.uk/pascal/VOC/voc2007/index.html) data. The Pascal VOC dataset comes with bounding box annotations, however, we will not use bounding box annotations in the weakly-supervised setting. 
+
+1. We first need to download the image dataset and annotations. Use the following commands to setup the data, and lets say it is stored at location `$DATA_DIR`.
 ```bash
 $ # First, cd to a location where you want to store ~0.5GB of data.
 $ wget http://host.robots.ox.ac.uk/pascal/VOC/voc2007/VOCtrainval_06-Nov-2007.tar
@@ -61,7 +65,7 @@ $ export DATA_DIR=$(pwd)
 ```
 2. In the main folder of the code provided in this repository, there is an empty directory with the name `data`. 
 	- In this folder, you need to create a link to `VOCdevkit` in this folder. 
-	- If you read WSDDN paper [2], you should know that it requires bounding box proposals from Selective Search, Edge Boxes or a similar method. We provide you with this data for the assignment. You need to put these proposals in the data folder too.
+	- For Task 2 (WSDDN [2]), we require bounding box proposals from Selective Search, Edge Boxes or a similar method. We provide you with this data for the assignment. You need to put these proposals in the data folder too.
 	
 ```bash
 # You can run these commands to populate the data directory
@@ -74,9 +78,8 @@ $ wget http://www.cs.cmu.edu/~spurushw/hw2_files/selective_search_data.tar && ta
 Alternatively, the selective search data can also be found at the following link: https://drive.google.com/drive/folders/1jRQOlAYKNFgS79Q5q9kfikyGE91LWv1I
 
 ## Task 0: Visualization and Understanding the Data Structures
-We will be building on code from the previous assignment, this time to include information about bounding boxes and region proposals in our dataloaders.
 
-### Modifying the Dataloader #
+### Modifying the Dataloader
 You will have to modify the VOCDataset class in `voc_dataset.py` to return bounding boxes, classes corresponding to the bounding boxes, as well as selective search region proposals. Check the `TODO` in `voc_dataset.py` and make changes wherever necessary. Once this is done, you will use Wandb to visualize the bounding boxes. The file `task_0.ipynb` has detailed instructions for this task.
 
 #### Q 0.1: What classes does the image at index 2020 contain (index 2020 is the 2021-th image due to 0-based numbering)?
@@ -225,6 +228,9 @@ Report the final class-wise AP on the test set and the mAP.
 
 
 # Submission Checklist 
+
+In all the following tasks, coding and analysis, please write a short summary of what you tried, what worked (or didn't), and what you learned, in the report. Write the code into the files as specified. Submit a zip file (`ANDREWID.zip`) with all the code files, and a single `REPORT.pdf`, which should have commands that TAs can run to re-produce your results/visualizations etc. Also mention any collaborators or other sources used for different parts of the assignment.
+
 ## Report
 
 ### Task 0
