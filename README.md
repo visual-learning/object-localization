@@ -36,7 +36,7 @@ If you are using AWS instance setup using the provided instructions, you should 
 
 ### Activate conda pytorch environment.
 ```bash
-$ conda activate vlrhw2
+$ conda activate vlrhw1
 ```
 ### Some conda packages can only be installed from conda-forge (e.g. opencv). So we will be appending conda-forge channel into our conda channels
 ```bash
@@ -72,10 +72,8 @@ $ export DATA_DIR=$(pwd)
 $ # First, cd to the main code folder
 $ # Then cd to the data folder
 $ cd data/VOCdevkit/VOC2007/
-$ # Download the selective search data
-$ wget http://www.cs.cmu.edu/~spurushw/hw2_files/selective_search_data.tar && tar xf selective_search_data.tar
+$ # Download the selective search data from https://drive.google.com/drive/folders/1jRQOlAYKNFgS79Q5q9kfikyGE91LWv1I to this location
 ```
-Alternatively, the selective search data can also be found at the following link: https://drive.google.com/drive/folders/1jRQOlAYKNFgS79Q5q9kfikyGE91LWv1I
 
 ## Task 0: Visualization and Understanding the Data Structures
 
