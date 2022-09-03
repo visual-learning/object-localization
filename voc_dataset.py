@@ -21,7 +21,6 @@ class VOCDataset(Dataset):
     
     for i in range(len(CLASS_NAMES)):
         INV_CLASS[CLASS_NAMES[i]] = i
-
     
     # TODO: Ensure data directory is correct
     def __init__(self, split='trainval', image_size=224, top_n=300, data_dir='data/VOCdevkit/VOC2007/'):

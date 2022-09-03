@@ -80,12 +80,13 @@ Alternatively, the selective search data can also be found at the following link
 ## Task 0: Visualization and Understanding the Data Structures
 
 ### Modifying the Dataloader
-You will have to modify the VOCDataset class in `voc_dataset.py` to return bounding boxes, classes corresponding to the bounding boxes, as well as selective search region proposals. Check the `TODO` in `voc_dataset.py` and make changes wherever necessary. Once this is done, you will use Wandb to visualize the bounding boxes. The file `task_0.ipynb` has detailed instructions for this task.
+First, you will have to modify the VOCDataset class in `voc_dataset.py` to return bounding boxes, classes corresponding to the bounding boxes, as well as selective search region proposals. Check the `TODO` in `voc_dataset.py` and make changes wherever necessary. 
+
+Once this is done, you will use Wandb to visualize the bounding boxes. The file `task_0.ipynb` has detailed instructions for this task.
 
 #### Q 0.1: What classes does the image at index 2020 contain (index 2020 is the 2021-th image due to 0-based numbering)?
-#### Q 0.2: You might have noticed that each image has a certain number of proposals from selective search. Often, this number is a lot more than we require. What is the easiest way to select the most informative regions? (Hint: look at the scores corresponding to each proposal in `voc_2007_trainval.mat`).
-#### Q 0.3 Use Wandb to visualize the ground-truth bounding box and the class for the image at index 2020.
-#### Q 0.4 Use Wandb to visualize the top ten bounding box proposals for the image at index 2020.
+#### Q 0.2 Use Wandb to visualize the ground-truth bounding box and the class for the image at index 2020.
+#### Q 0.3 Use Wandb to visualize the top ten bounding box proposals for the image at index 2020.
 
 
 ## Task 1: Is Object Localization Free?
@@ -234,9 +235,9 @@ In all the following tasks, coding and analysis, please write a short summary of
 ## Report
 
 ### Task 0
-- [ ] Answer Q0.1, Q0.2
+- [ ] Answer Q0.1
+- [ ] wandb screenshot for Q0.2
 - [ ] wandb screenshot for Q0.3
-- [ ] wandb screenshot for Q0.4
 ### Task 1
 - [ ] Q1.1 describe functionality of the completed TODO blocks
 - [ ] Answer Q1.2
