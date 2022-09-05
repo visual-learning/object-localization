@@ -35,20 +35,12 @@ If you are using AWS instance setup using the provided instructions, you should 
 5. And many tiny dependencies that come pre-installed with anaconda or can be installed using ``conda install`` or ``pip install``
 
 ### Activate conda pytorch environment.
-<!-- TODO (achakrav): add a conda environment file maybe?-->
+You can create a conda environment using the environment file provided to you:
 ```bash
-$ conda activate vlrhw2
-```
-### Some conda packages can only be installed from conda-forge (e.g. opencv). So we will be appending conda-forge channel into our conda channels
-```bash
-$ conda config --append channels conda-forge
+conda env create -f environment.yml
 ```
 
-### Now we'll install the packages we need to run this assignment.
-```
-$ conda install -c anaconda scikit-learn
-$ conda install -c conda-forge wandb
-```
+You will be using this environment for future assignments as well.
 
 ### Data setup
 
