@@ -35,8 +35,9 @@ If you are using AWS instance setup using the provided instructions, you should 
 5. And many tiny dependencies that come pre-installed with anaconda or can be installed using ``conda install`` or ``pip install``
 
 ### Activate conda pytorch environment.
+<!-- TODO (achakrav): add a conda environment file maybe?-->
 ```bash
-$ conda activate vlrhw1
+$ conda activate vlrhw2
 ```
 ### Some conda packages can only be installed from conda-forge (e.g. opencv). So we will be appending conda-forge channel into our conda channels
 ```bash
