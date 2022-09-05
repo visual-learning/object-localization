@@ -104,7 +104,7 @@ parser.add_argument(
 parser.add_argument(
     '--pretrained',
     dest='pretrained',
-    action='store_true',
+    action='store_false',
     help='use pre-trained model')
 parser.add_argument(
     '--world-size',
@@ -139,10 +139,8 @@ def main():
     model.features = torch.nn.DataParallel(model.features)
     model.cuda()
 
-    # TODO:
-    # define loss function (criterion) and optimizer
+    # TODO (Q1.1): define loss function (criterion) and optimizer from [1]
     # also use an LR scheduler to decay LR by 10 every 30 epochs
-    # you can also use PlateauLR scheduler, which usually works well
 
 
 
@@ -165,9 +163,8 @@ def main():
 
     # Data loading code
     
-    #TODO: Create Datasets and Dataloaders using VOCDataset - Ensure that the sizes are as required
+    # TODO (Q1.1): Create Datasets and Dataloaders using VOCDataset - Ensure that the sizes are 512x512
     # Also ensure that data directories are correct - the ones use for testing by TAs might be different
-    # Resize the images to 512x512
 
 
 
@@ -175,7 +172,6 @@ def main():
     train_loader = torch.utils.data.DataLoader(
         train_dataset,
         batch_size=args.batch_size,
-        # shuffle=(train_sampler is None),
         shuffle=False,
         num_workers=args.workers,
         pin_memory=True,
@@ -196,7 +192,7 @@ def main():
 
     
     
-    # TODO: Create loggers for wandb - ideally, use flags since wandb makes it harder to debug code.
+    # TODO (Q1.3): Create loggers for wandb - ideally, use flags since wandb makes it harder to debug code.
 
 
     for epoch in range(args.start_epoch, args.epochs):
@@ -240,12 +236,12 @@ def train(train_loader, model, criterion, optimizer, epoch):
         # measure data loading time
         data_time.update(time.time() - end)
 
-        # TODO: Get inputs from the data dict
+        # TODO (Q1.1): Get inputs from the data dict
 
 
-        # TODO: Get output from model
-        # TODO: Perform any necessary functions on the output such as clamping
-        # TODO: Compute loss using ``criterion``
+        # TODO (Q1.1): Get output from model
+        # TODO (Q1.1): Perform any necessary operations on the output
+        # TODO (Q1.1): Compute loss using ``criterion``
         
 
 
@@ -257,8 +253,7 @@ def train(train_loader, model, criterion, optimizer, epoch):
         avg_m2.update(m2)
 
 
-        # TODO:
-        # compute gradient and do SGD step
+        # TODO (Q1.1): compute gradient and perform optimizer step
 
 
         # measure elapsed time
@@ -281,9 +276,7 @@ def train(train_loader, model, criterion, optimizer, epoch):
                       avg_m1=avg_m1,
                       avg_m2=avg_m2))
 
-        #TODO: Visualize/log things as mentioned in handout
-        #TODO: Visualize at appropriate intervals
-
+        # TODO (Q1.3): Visualize/log things as mentioned in handout at appropriate intervals
 
 
 
@@ -302,13 +295,13 @@ def validate(val_loader, model, criterion, epoch = 0):
     end = time.time()
     for i, (data) in enumerate(val_loader):
 
-        # TODO: Get inputs from the data dict
+        # TODO (Q1.1): Get inputs from the data dict
         
 
 
-        # TODO: Get output from model
-        # TODO: Perform any necessary functions on the output
-        # TODO: Compute loss using ``criterion``
+        # TODO (Q1.1): Get output from model
+        # TODO (Q1.1): Perform any necessary functions on the output
+        # TODO (Q1.1): Compute loss using ``criterion``
         
 
 
@@ -336,8 +329,8 @@ def validate(val_loader, model, criterion, epoch = 0):
                       avg_m1=avg_m1,
                       avg_m2=avg_m2))
 
-        #TODO: Visualize things as mentioned in handout
-        #TODO: Visualize at appropriate intervals
+        # TODO (Q1.3): Visualize things as mentioned in handout
+        # TODO (Q1.3): Visualize at appropriate intervals
 
 
     print(' * Metric1 {avg_m1.avg:.3f} Metric2 {avg_m2.avg:.3f}'.format(
@@ -373,13 +366,13 @@ class AverageMeter(object):
 
 
 def metric1(output, target):
-    # TODO: Ignore for now - proceed till instructed
+    # TODO (Q1.5): compute metric1
     
     return [0]
 
 
 def metric2(output, target):
-    #TODO: Ignore for now - proceed till instructed
+    # TODO (Q1.5): compute metric2
     
     return [0]
 

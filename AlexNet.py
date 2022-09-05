@@ -1,10 +1,9 @@
 import numpy as np
-
 import torch.utils.data as data
 import torch.nn as nn
 import torch.utils.model_zoo as model_zoo
-
 import torchvision.models as models
+
 
 model_urls = {
         'alexnet': 'https://download.pytorch.org/models/alexnet-owt-4df8aa71.pth',
@@ -14,11 +13,11 @@ model_urls = {
 class LocalizerAlexNet(nn.Module):
     def __init__(self, num_classes=20):
         super(LocalizerAlexNet, self).__init__()
-        #TODO: Define model
+        # TODO (Q1.1): Define model
 
 
     def forward(self, x):
-        #TODO: Define forward pass
+        # TODO (Q1.1): Define forward pass
 
         return x
 
@@ -26,11 +25,11 @@ class LocalizerAlexNet(nn.Module):
 class LocalizerAlexNetRobust(nn.Module):
     def __init__(self, num_classes=20):
         super(LocalizerAlexNetRobust, self).__init__()
-        #TODO: Define model
+        # TODO (Q1.7): Define model
 
 
     def forward(self, x):
-        #TODO: Define fwd pass
+        # TODO (Q1.7): Define forward pass
 
 
         return x
@@ -44,7 +43,7 @@ def localizer_alexnet(pretrained=False, **kwargs):
         pretrained (bool): If True, returns a model pre-trained on ImageNet
     """
     model = LocalizerAlexNet(**kwargs)
-    #TODO: Initialize weights correctly based on whethet it is pretrained or not
+    # TODO (Q1.3): Initialize weights correctly based on whether it is pretrained or not
 
 
     return model
@@ -58,7 +57,7 @@ def localizer_alexnet_robust(pretrained=False, **kwargs):
         pretrained (bool): If True, returns a model pre-trained on ImageNet
     """
     model = LocalizerAlexNetRobust(**kwargs)
-    #TODO: Ignore for now until instructed
+    # TODO (Q1.7): Initialize weights correctly based on whether it is pretrained or not
     
 
     return model

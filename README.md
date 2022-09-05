@@ -88,11 +88,13 @@ Once this is done, you will use Wandb to visualize the bounding boxes. The file 
 
 
 ## Task 1: Is Object Localization Free?
-A good way to dive into using PyTorch is training a simple classification model on ImageNet. 
-We won't be doing that to save the rainforest (and AWS credits) but you should take a look at the code [here](https://github.com/pytorch/examples/blob/master/imagenet/main.py). We will be following the same structure.
+Now that we have the data loaders set up, we're ready to get into object detectors! Before diving into object detectors though, let's see if we can localize objects using image-level classification labels. We'll be implementing a simplified version of the approach in [1], so you should go through the paper before getting started. 
 
-The code for the model is in `AlexNet.py`. In the code, you need to fill in the parts that say "TODO" (read the questions before you start filling in code). 
-We need to define our model in one of the "TODO" parts. We are going to call this ``LocalizerAlexNet``. I've written a skeleton structure in `AlexNet.py`. You can look at the AlexNet example of PyTorch. For simplicity and speed, we won't be copying the FC layers to our model. We want the model to look like this:
+As proposed in [1], we will be using a trained ImageNet classification model and examine the backbone features to see if it provides us cues for the approximate locations of objects. We won't be training a classification network from scratch to save the rainforest (and AWS credits) but you should take a look at the code [here](https://github.com/pytorch/examples/blob/master/imagenet/main.py). We will be following the same structure.
+
+First, we need to define our model. The code for the model is in `AlexNet.py`. In the code, you need to fill in the parts that say "TODO" (read the questions before you start filling in code). We are going to call this ``LocalizerAlexNet``. We've written a skeleton structure in `AlexNet.py`. You can look at the AlexNet example of PyTorch for reference. 
+
+For simplicity, we won't be copying the pre-trained FC layers to our model. Instead, we'll initialize new convolution layers and train them. This is quite different to [1], where the pre-trained FC layers are treated as convolutions. In summary, we want the model to look like this:
 ```text
 LocalizerAlexNet(
   (features): Sequential(
@@ -119,7 +121,8 @@ LocalizerAlexNet(
 )
 ```
 
-#### Q 1.1 Fill in each of the TODO parts except for the functions ``metric1``, ``metric2`` and ``LocalizerAlexNetRobust``. In the report, for each of the TODO, describe the functionality of that part. The output of the above model has some spatial resolution. Make sure you read paper [1] and understand how to go from the output to an image level prediction (max-pool). (Hint: This part will be implemented in ``train()`` and ``validate()``.
+<!-- TODO (achakrav): Do we need the functionality part in the report? -->
+#### Q 1.1 Fill in each of the TODO parts in `AlexNet.py`. Next, fill the TODO parts in `task_1.py`except the functions ``metric1``, ``metric2`` and ``LocalizerAlexNetRobust``. You may need to refer to [1] for their choice of loss function and optimizer. As you may observe, the output of the above model has some spatial resolution. Make sure you read paper [1] and understand how to go from the output to an image-level prediction (max-pool). (Hint: This part will be implemented in ``train()`` and ``validate()``. In the report, for each of the TODO, describe the functionality of that part. 
 
 #### Q 1.2 What is the output resolution of the model?
 
@@ -135,30 +138,31 @@ You can also use it to save models, perform hyperparameter tuning, share your re
 
 When you're logging to WandB, make sure you use good tag names. For example, for all training plots you can use ``train/loss``, ``train/metric1``, etc and for validation ``validation/metric1``, etc.
 
+In this task, we will be logging losses, metrics, and images. Ensure that you're familiar with how to do these.
+
 #### Q 1.3 Initialize the model from ImageNet (till the conv5 layer). Initialize the rest of layers with Xavier initialization and train the model using batchsize=32, learning rate=0.01, epochs=2 (Yes, only 2 epochs for now).(Hint: also try lr=0.1 - best value varies with implementation of loss)
-- Use wandb to plot the training loss curve.
-- Use wandb to plot images and the rescaled heatmaps for only the GT classes for 2 batches (1 images in each batch) in every epoch (uniformly spaced in iterations).
+- Use wandb to plot the training loss curve at every iteration.
+- We also want to visualize where the network is "looking" for objects during classification. We can use the model's outputs for this. For example, to see where the class 0 is being localized, we can access the channel corresponding to class 0 in the model output. Use wandb to plot images and the rescaled heatmaps (to image resolution) for any GT class for 2 images at epoch 0 and epoch 1. The images and corresponding GT label should be the same across epochs so you can monitor how the network is learning to localize objects. (Hint: a heatmap has values between 0 and 1 while the model output does not!)
 
 #### Q 1.4 In the first few iterations, you should observe a steep drop in the loss value. Why does this happen? (Hint: Think about the labels associated with each image).
 
-#### Q 1.5 We will log two metrics during training to see if our model is improving progressively with iterations. The first metric is a standard metric for multi-label classification. Do you remember what this is? Write the code for this metric in the TODO block for ``metric1`` (make sure you handle all the boundary cases). However, ``metric1`` is to some extent not robust to the issue we identified in Q1.4. The second metric, Recall, is more tuned to this dataset. Even though there is a steep drop in loss in the first few iterations ``metric2`` should remain almost constant. Implement it in the TODO block for ``metric2``. (Make any assumptions needed - like thresholds).
+#### Q 1.5 We will log two metrics during training to see if our model is improving progressively with iterations. The first metric is a standard metric for multi-label classification. Do you remember what this is? Write the code for this metric in the TODO block for ``metric1`` (make sure you handle all the boundary cases). However, ``metric1`` is to some extent not robust to the issue we identified in Q1.4. The second metric, Recall, is more tuned to this dataset. Even though there is a steep drop in loss in the first few iterations ``metric2`` should remain almost constant. Implement it in the TODO block for ``metric2``. (Make any assumptions needed - like thresholds). Feel free to use libraries like ``sklearn``.
 
 ### We're ready to train now!
 
 #### Q 1.6 Initialize the model from ImageNet (till the conv5 layer), initialize the rest of layers with Xavier initialization and train the model using batchsize=32, learning rate=0.01, epochs=30. Evaluate every 2 epochs. (Hint: also try lr=0.1 - best value varies with implementation of loss) \[Expected training time: 45mins-75mins].
 - IMPORTANT: FOR ALL EXPERIMENTS FROM HERE - ENSURE THAT THE SAME IMAGES ARE PLOTTED ACROSS EXPERIMENTS BY KEEPING THE SAMPLED BATCHES IN THE SAME ORDER. THIS CAN BE DONE BY FIXING THE RANDOM SEEDS BEFORE CREATING DATALOADERS.
-- Use wandb to plot the training loss curve, training ``metric1``, training ``metric2``
-- Use wandb to plot the mean validation ``metric1`` and mean validation ``metric2`` for every 2 epochs.
-- Use wandb to plot images and the rescaled heatmaps for only the GT classes for 2 batches (1 images in each batch) at the end of the 1st, 15th, and last(30th) epoch. 
-
+- Use wandb to plot the training loss curve, training ``metric1``, training ``metric2`` at every iteration.
+- Use wandb to plot the mean validation ``metric1`` and mean validation ``metric2`` every 2 epochs.
+- Use wandb to plot images and the rescaled heatmaps for one of the GT classes for 2 images every 15 epochs (i.e., at the end of the 1st, 15th, and 30th epoch)
 - At the end of training, use wandb to plot 3 randomly chosen images and corresponding heatmaps (similar to above) from the validation set.
 - In your report, mention the training loss, training and validation ``metric1`` and ``metric2`` achieved at the end of training. 
 
 
 #### Q 1.7 In the heatmap visualizations you observe that there are usually peaks on salient features of the objects but not on the entire objects. How can you fix this in the architecture of the model? (Hint: during training the max-pool operation picks the most salient location). Implement this new model in ``LocalizerAlexNetRobust`` and also implement the corresponding ``localizer_alexnet_robust()``. Train the model using batchsize=32, learning rate=0.01, epochs=45. Evaluate every 2 epochs.(Hint: also try lr=0.1 - best value varies with implementation of loss)
-- Hints:
+- Hint:
     - You do not have to change the backbone AlexNet for implementing this. Think about how the network may try to use certain salient parts of the object more and what maybe a quick and easy way to prevent it.
-- For this question only visualize images and heatmaps using wandb at similar intervals as before (ensure that the same images are plotted). 
+- For this question only visualize images and heatmaps using wandb every 15 epochs as before (ensure that the same images are plotted). 
 - You don't have to plot the rest of the quantities that you did for previous questions (if you haven't put flags to turn off logging the other quantities, it's okay to log them too - just don't add them to the report).
 - At the end of training, use wandb to plot 3 randomly chosen images (same images as Q1.6) and corresponding heatmaps from the validation set.
 - Report the training loss, training and validation ``metric1`` and ``metric2`` achieved at the end of training. 
