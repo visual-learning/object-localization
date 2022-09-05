@@ -40,7 +40,7 @@ You can create a conda environment using the environment file provided to you:
 conda env create -f environment.yml
 ```
 
-You will be using this environment for future assignments as well.
+If this doesn't work, feel free to install the latest versions of these libraries using pip/conda. You will be using this environment for future assignments as well.
 
 ### Data setup
 
