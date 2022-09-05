@@ -147,7 +147,7 @@ In this task, we will be logging losses, metrics, and images. Ensure that you're
 
 #### Q 1.4 In the first few iterations, you should observe a steep drop in the loss value. Why does this happen? (Hint: Think about the labels associated with each image).
 
-#### Q 1.5 We will log two metrics during training to see if our model is improving progressively with iterations. The first metric is a standard metric for multi-label classification. Do you remember what this is? Write the code for this metric in the TODO block for ``metric1`` (make sure you handle all the boundary cases). However, ``metric1`` is to some extent not robust to the issue we identified in Q1.4. The second metric, Recall, is more tuned to this dataset. Even though there is a steep drop in loss in the first few iterations ``metric2`` should remain almost constant. Implement it in the TODO block for ``metric2``. (Make any assumptions needed - like thresholds). Feel free to use libraries like ``sklearn``.
+#### Q 1.5 We will log two metrics during training to see if our model is improving progressively with iterations. The first metric is a standard metric for multi-label classification. Do you remember what this is (mention it in the report)? Write the code for this metric in the TODO block for ``metric1`` (make sure you handle all the boundary cases). However, ``metric1`` is to some extent not robust to the issue we identified in Q1.4. The second metric, Recall, is more tuned to this dataset. Even though there is a steep drop in loss in the first few iterations ``metric2`` should remain almost constant. Implement it in the TODO block for ``metric2``. (Make any assumptions needed - like thresholds). Feel free to use libraries like ``sklearn``.
 
 ### We're ready to train now!
 
@@ -242,22 +242,29 @@ In all the following tasks, coding and analysis, please write a short summary of
 - [ ] wandb screenshot for Q0.2
 - [ ] wandb screenshot for Q0.3
 ### Task 1
-- [ ] Q1.1 describe functionality of the completed TODO blocks
+- [ ] Q1.1 describe functionality of the completed TODO blocks <!-- TODO (achakrav): Do we need the functionality part in the report? -->
 - [ ] Answer Q1.2
+- [ ] Q1.3
+  - [ ] Add screenshot of training loss
+  - [ ] Screenshot of wandb showing images and heat maps for the first logged epoch
+  - [ ] Screenshot of wandb showing images and heat maps for the second logged epoch
 - [ ] Answer Q1.4
-- [ ] Answer Q1.5 and describe functionality of the completed TODO blocks
+- [ ] Answer Q1.5 and mention the assumptions
 - [ ] Q1.6
 	- [ ] Add screenshot of metric1, metric2 on the training set
 	- [ ] Add screenshot of metric1, metric2 on the validation set
-	- [ ] Screenshot of wandb showing images and heat maps for the first logged epoch
-	- [ ] Screenshot of wandb showing images and heat maps for the last logged epoch
-	- [ ] wandb screenshot for 3 randomly chosen validation images and heat maps
+	- [ ] Screenshot of wandb showing images and heat maps for the first logged epoch \*show image and heatmap side-by-side\*.
+	- [ ] Screenshot of wandb showing images and heat maps for the 15th logged epoch \*show image and heatmap side-by-side\*.
+	- [ ] Screenshot of wandb showing images and heat maps for the last logged epoch \*show image and heatmap side-by-side\*.
+	- [ ] wandb screenshot for 3 randomly chosen validation images and heat maps \*show image and heatmap side-by-side\*.
 	- [ ] Report training loss, validation metric1, validation metric2 at the end of training
 
 - [ ] Q1.7 
-	- [ ] Screenshot of wandb showing images and heat maps for the first logged epoch \*for Q1.6 and Q1.7 show image and heatmap side-by-side\*.
-	- [ ] Screenshot of wandb showing images and heat maps for the last logged epoch \*for Q1.6 and Q1.7 show image and heatmap side-by-side\*.
-	- [ ] wandb screenshot for 3 randomly chosen validation images (but same images as Q1.6) and heat maps
+	- [ ] Screenshot of wandb showing images and heat maps for the first logged epoch \*show image and heatmap side-by-side\*.
+	- [ ] Screenshot of wandb showing images and heat maps for the 15th logged epoch \*show image and heatmap side-by-side\*.
+	- [ ] Screenshot of wandb showing images and heat maps for the 30th logged epoch \*show image and heatmap side-by-side\*.
+	- [ ] Screenshot of wandb showing images and heat maps for the last logged epoch \*show image and heatmap side-by-side\*.
+	- [ ] wandb screenshot for 3 randomly chosen validation images (but same images as Q1.6) and heat maps \*show image and heatmap side-by-side\*.
 	- [ ] Report training loss, validation metric1, validation metric2 at the end of training
 
 ### Task 2
