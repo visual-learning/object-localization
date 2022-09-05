@@ -19,7 +19,7 @@ We will use the [PyTorch](pytorch.org) framework to design our models, train and
 
 We will be implementing slightly simplified versions of the following approaches in this assignment:
 
-<!-- % TODO(achakrav): move paper readings near each task. Paper 1 was not useful for the assignment. -->
+<!-- % TODO(achakrav): should we move paper readings near each task?-->
 1. Oquab, Maxime, et al. "*Is object localization for free?-weakly-supervised learning with convolutional neural networks.*" Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition. 2015. [Link](https://www.di.ens.fr/~josef/publications/Oquab15.pdf)
 2. Bilen, Hakan, and Andrea Vedaldi. "*Weakly supervised deep detection networks*." Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition. 2016. [Link](https://www.robots.ox.ac.uk/~vgg/publications/2016/Bilen16/bilen16.pdf)
 
