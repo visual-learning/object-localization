@@ -39,8 +39,7 @@ You can create a conda environment using the environment file provided to you:
 ```bash
 conda env create -f environment.yml
 ```
-
-If this doesn't work, feel free to install the latest versions of these libraries using pip/conda. You will be using this environment for future assignments as well.
+If this doesn't work, feel free to install the dependencies using conda/pip. For reference, we used ``pytorch=1.11.0``, ``scikit-learn=0.23.2``, ``wandb=0.12.11``, ``pillow=9.0.1`` and Python 3.7. You will be using this environment for future assignments as well.
 
 ### Data setup
 
