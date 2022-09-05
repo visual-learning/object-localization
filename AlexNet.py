@@ -1,5 +1,4 @@
 import numpy as np
-import torch.utils.data as data
 import torch.nn as nn
 import torch.utils.model_zoo as model_zoo
 import torchvision.models as models

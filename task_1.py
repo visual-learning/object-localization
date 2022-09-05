@@ -2,10 +2,9 @@ import argparse
 import os
 import shutil
 import time
-import sys
+
 import sklearn
 import sklearn.metrics
-
 import torch
 import torch.nn as nn
 import torch.nn.parallel
