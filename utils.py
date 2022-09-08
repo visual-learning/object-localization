@@ -70,7 +70,3 @@ def get_box_data(classes, bbox_coordinates):
         ]
 
     return box_list
-
-
-
-
