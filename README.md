@@ -20,7 +20,6 @@ We will use the [PyTorch](pytorch.org) framework to design our models, train and
 
 We will be implementing slightly simplified versions of the following approaches in this assignment:
 
-<!-- % TODO(achakrav): should we move paper readings near each task?-->
 1. Oquab, Maxime, et al. "*Is object localization for free?-weakly-supervised learning with convolutional neural networks.*" Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition. 2015. [Link](https://www.di.ens.fr/~josef/publications/Oquab15.pdf)
 2. Bilen, Hakan, and Andrea Vedaldi. "*Weakly supervised deep detection networks*." Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition. 2016. [Link](https://www.robots.ox.ac.uk/~vgg/publications/2016/Bilen16/bilen16.pdf)
 
@@ -114,8 +113,7 @@ LocalizerAlexNet(
 )
 ```
 
-<!-- TODO (achakrav): Do we need the functionality part in the report? -->
-#### Q 1.1 Fill in each of the TODO parts in `AlexNet.py`. Next, fill the TODO parts in `task_1.py`except the functions ``metric1``, ``metric2`` and ``LocalizerAlexNetRobust``. You may need to refer to [1] for their choice of loss function and optimizer. As you may observe, the output of the above model has some spatial resolution. Make sure you read paper [1] and understand how to go from the output to an image-level prediction (max-pool). (Hint: This part will be implemented in ``train()`` and ``validate()``. In the report, for each of the TODO, describe the functionality of that part. 
+#### Q 1.1 Fill in each of the TODO parts in `AlexNet.py`. Next, fill the TODO parts in `task_1.py`except the functions ``metric1``, ``metric2`` and ``LocalizerAlexNetRobust``. You may need to refer to [1] for their choice of loss function and optimizer. As you may observe, the output of the above model has some spatial resolution. Make sure you read paper [1] and understand how to go from the output to an image-level prediction (max-pool). (Hint: This part will be implemented in ``train()`` and ``validate()``. For each of the TODO, describe the functionality of that part using appropriate comments. 
 
 #### Q 1.2 What is the output resolution of the model?
 
@@ -234,7 +232,7 @@ In all the following tasks, coding and analysis, please write a short summary of
 - [ ] wandb screenshot for Q0.2
 - [ ] wandb screenshot for Q0.3
 ### Task 1
-- [ ] Q1.1 describe functionality of the completed TODO blocks <!-- TODO (achakrav): Do we need the functionality part in the report? -->
+- [ ] Q1.1 describe functionality of the completed TODO blocks with comments
 - [ ] Answer Q1.2
 - [ ] Q1.3
   - [ ] Add screenshot of training loss
