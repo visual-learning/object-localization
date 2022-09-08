@@ -1,29 +1,30 @@
-# Assignment 2: Weakly Supervised Object Localization
+# Assignment 1: Weakly Supervised Object Localization
 
-- [Visual Learning and Recognition (16-824) Spring 2021](https://visual-learning.cs.cmu.edu/)
-- Updated by: [Sanil Pande](https://sanilpande.github.io/)
+- [Visual Learning and Recognition (16-824) Fall 2022](https://visual-learning.cs.cmu.edu/)
+- Updated by: [Anirudh Chakravarthy](https://anirudh-chakravarthy.github.io/) and [Sai Shruthi Balaji](https://www.linkedin.com/in/sai-shruthi-balaji/)
 - Created by : [Senthil Purushwalkam](http://www.cs.cmu.edu/~spurushw/)
-- TAs: [Sanil Pande](https://sanilpande.github.io/), [Sudeep Dasari](https://sudeepdasari.github.io/), [Ziyan Wang](https://ziyanw1.github.io/)
+- TAs: [Anirudh Chakravarthy](https://anirudh-chakravarthy.github.io/), [Sai Shruthi Balaji](https://www.linkedin.com/in/sai-shruthi-balaji/), [Vanshaj Chowdhary](https://www.linkedin.com/in/vanshajchowdhary/), and [Nikos Gkanatsios](https://nickgkan.github.io/).
 
 - We will be keeping an updated FAQ on piazza. Please check the FAQ post before posting a question.
-- Due date: March 29th, 2021 at 11:59pm EST.
+- Due date: Oct 3rd, 2022 at 11:59pm EST.
 - Total points: 100
 
-In this assignment, we will learn to train object detectors in the *weakly supervised* setting, which means you're going to train object detectors without bounding box annotations!
+## Introduction
+In this assignment, we will learn to train object detectors with only image-level annotations and no bounding box annotations! First, in task 1, we will use classification models and examine their backbone features for object localization cues. In task 2, we will train object detectors in the *weakly supervised* setting, which means we're going to train an object detector without bounding box annotations!
+
+When we use a classification network like AlexNet, it often contains ReLU activations. Therefore, in order to maximize the likelihood for a given class, we can expect high activations in the feature map. Since CNNs preserve spatial locality, this means that the model implicitly learns to produce high activations around the regions where an object is present. We will use this property to approximately localize the object in the image. This is called a weakly-supervised paradigm: supervised because we have image-level classification labels, but weak since we don't have ground-truth bounding boxes. 
 
 We will use the [PyTorch](pytorch.org) framework to design our models, train and test them. We will also be using [Weights and Biases](https://wandb.ai/site) for visualizations and to log our metrics. This assignment borrows heavily from the [previous version](https://bitbucket.org/cmu16824_spring2020/2020_hw2_release/src/master/), but is now upgraded to Python 3, and does not depend upon the now deprecated Faster-RCNN repository.
+
+## Readings
 
 We will be implementing slightly simplified versions of the following approaches in this assignment:
 
 1. Oquab, Maxime, et al. "*Is object localization for free?-weakly-supervised learning with convolutional neural networks.*" Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition. 2015. [Link](https://www.di.ens.fr/~josef/publications/Oquab15.pdf)
 2. Bilen, Hakan, and Andrea Vedaldi. "*Weakly supervised deep detection networks*." Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition. 2016. [Link](https://www.robots.ox.ac.uk/~vgg/publications/2016/Bilen16/bilen16.pdf)
 
-You should read these papers first. We will train and test using the [PASCAL VOC 2007](http://host.robots.ox.ac.uk/pascal/VOC/voc2007/index.html) data. The Pascal VOC dataset comes with bounding box annotations, however, we will not use bounding box annotations in the weakly supervised setting. 
 
-In all the following tasks, coding and analysis, please write a short summary of what you tried, what worked (or didn't), and what you learned, in the report. Write the code into the files as specified. Submit a zip file (`ANDREWID.zip`) with all the code files, and a single `REPORT.pdf`, which should have commands that TAs can run to re-produce your results/visualizations etc. Also mention any collaborators or other sources used for different parts of the assignment.
-
-
-## Software Setup
+## Environment Setup
 
 If you are using AWS instance setup using the provided instructions, you should already have most of the requirements installed on your machine. In any case, you would need the following Python libraries installed:
 
@@ -34,22 +35,17 @@ If you are using AWS instance setup using the provided instructions, you should 
 5. And many tiny dependencies that come pre-installed with anaconda or can be installed using ``conda install`` or ``pip install``
 
 ### Activate conda pytorch environment.
+You can create a conda environment using the environment file provided to you:
 ```bash
-$ conda activate vlrhw2
+conda env create -f environment.yml
 ```
-### Some conda packages can only be installed from conda-forge (e.g. opencv). So we will be appending conda-forge channel into our conda channels
-```bash
-$ conda config --append channels conda-forge
-```
-
-### Now we'll install the packages we need to run this assignment.
-```
-$ conda install -c anaconda scikit-learn
-$ conda install -c conda-forge wandb
-```
+If this doesn't work, feel free to install the dependencies using conda/pip. For reference, we used ``pytorch=1.11.0``, ``scikit-learn=0.23.2``, ``wandb=0.12.11``, ``pillow=9.0.1`` and Python 3.7. You will be using this environment for future assignments as well.
 
 ### Data setup
-1. Similar to Assignment 1, we first need to download the image dataset and annotations. If you already have the data from the last assignment, you can skip this step. Use the following commands to setup the data, and lets say it is stored at location `$DATA_DIR`.
+
+We will train and test using the [PASCAL VOC 2007](http://host.robots.ox.ac.uk/pascal/VOC/voc2007/index.html) data. The Pascal VOC dataset comes with bounding box annotations, however, we will not use bounding box annotations in the weakly-supervised setting. 
+
+1. We first need to download the image dataset and annotations. Use the following commands to setup the data, and lets say it is stored at location `$DATA_DIR`.
 ```bash
 $ # First, cd to a location where you want to store ~0.5GB of data.
 $ wget http://host.robots.ox.ac.uk/pascal/VOC/voc2007/VOCtrainval_06-Nov-2007.tar
@@ -61,36 +57,36 @@ $ export DATA_DIR=$(pwd)
 ```
 2. In the main folder of the code provided in this repository, there is an empty directory with the name `data`. 
 	- In this folder, you need to create a link to `VOCdevkit` in this folder. 
-	- If you read WSDDN paper [2], you should know that it requires bounding box proposals from Selective Search, Edge Boxes or a similar method. We provide you with this data for the assignment. You need to put these proposals in the data folder too.
+	- For Task 2 (WSDDN [2]), we require bounding box proposals from Selective Search, Edge Boxes or a similar method. We provide you with this data for the assignment. You need to put these proposals in the data folder too.
 	
 ```bash
 # You can run these commands to populate the data directory
 $ # First, cd to the main code folder
 $ # Then cd to the data folder
 $ cd data/VOCdevkit/VOC2007/
-$ # Download the selective search data
-$ wget http://www.cs.cmu.edu/~spurushw/hw2_files/selective_search_data.tar && tar xf selective_search_data.tar
+$ # Download the selective search data from https://drive.google.com/drive/folders/1jRQOlAYKNFgS79Q5q9kfikyGE91LWv1I to this location
 ```
-Alternatively, the selective search data can also be found at the following link: https://drive.google.com/drive/folders/1jRQOlAYKNFgS79Q5q9kfikyGE91LWv1I
 
 ## Task 0: Visualization and Understanding the Data Structures
-We will be building on code from the previous assignment, this time to include information about bounding boxes and region proposals in our dataloaders.
 
-### Modifying the Dataloader #
-You will have to modify the VOCDataset class in `voc_dataset.py` to return bounding boxes, classes corresponding to the bounding boxes, as well as selective search region proposals. Check the `TODO` in `voc_dataset.py` and make changes wherever necessary. Once this is done, you will use Wandb to visualize the bounding boxes. The file `task_0.ipynb` has detailed instructions for this task.
+### Modifying the Dataloader
+First, you will have to modify the VOCDataset class in `voc_dataset.py` to return bounding boxes, classes corresponding to the bounding boxes, as well as selective search region proposals. Check the `TODO` in `voc_dataset.py` and make changes wherever necessary. 
+
+Once this is done, you will use Wandb to visualize the bounding boxes. The file `task_0.ipynb` has detailed instructions for this task.
 
 #### Q 0.1: What classes does the image at index 2020 contain (index 2020 is the 2021-th image due to 0-based numbering)?
-#### Q 0.2: You might have noticed that each image has a certain number of proposals from selective search. Often, this number is a lot more than we require. What is the easiest way to select the most informative regions? (Hint: look at the scores corresponding to each proposal in `voc_2007_trainval.mat`).
-#### Q 0.3 Use Wandb to visualize the ground-truth bounding box and the class for the image at index 2020.
-#### Q 0.4 Use Wandb to visualize the top ten bounding box proposals for the image at index 2020.
+#### Q 0.2 Use Wandb to visualize the ground-truth bounding box and the class for the image at index 2020.
+#### Q 0.3 Use Wandb to visualize the top ten bounding box proposals for the image at index 2020.
 
 
 ## Task 1: Is Object Localization Free?
-A good way to dive into using PyTorch is training a simple classification model on ImageNet. 
-We won't be doing that to save the rainforest (and AWS credits) but you should take a look at the code [here](https://github.com/pytorch/examples/blob/master/imagenet/main.py). We will be following the same structure.
+Now that we have the data loaders set up, we're ready to get into object detectors! Before diving into object detectors though, let's see if we can localize objects using image-level classification labels. We'll be implementing a simplified version of the approach in [1], so you should go through the paper before getting started. 
 
-The code for the model is in `AlexNet.py`. In the code, you need to fill in the parts that say "TODO" (read the questions before you start filling in code). 
-We need to define our model in one of the "TODO" parts. We are going to call this ``LocalizerAlexNet``. I've written a skeleton structure in `AlexNet.py`. You can look at the AlexNet example of PyTorch. For simplicity and speed, we won't be copying the FC layers to our model. We want the model to look like this:
+As proposed in [1], we will be using a trained ImageNet classification model and examine the backbone features to see if it provides us cues for the approximate locations of objects. We won't be training a classification network from scratch to save the rainforest (and AWS credits) but you should take a look at the code [here](https://github.com/pytorch/examples/blob/master/imagenet/main.py). We will be following the same structure.
+
+First, we need to define our model. The code for the model is in `AlexNet.py`. In the code, you need to fill in the parts that say "TODO" (read the questions before you start filling in code). We are going to call this ``LocalizerAlexNet``. We've written a skeleton structure in `AlexNet.py`. You can look at the AlexNet example of PyTorch for reference. 
+
+For simplicity, we won't be copying the pre-trained FC layers to our model. Instead, we'll initialize new convolution layers and train them. This is quite different to [1], where the pre-trained FC layers are treated as convolutions. In summary, we want the model to look like this:
 ```text
 LocalizerAlexNet(
   (features): Sequential(
@@ -117,7 +113,7 @@ LocalizerAlexNet(
 )
 ```
 
-#### Q 1.1 Fill in each of the TODO parts except for the functions ``metric1``, ``metric2`` and ``LocalizerAlexNetRobust``. In the report, for each of the TODO, describe the functionality of that part. The output of the above model has some spatial resolution. Make sure you read paper [1] and understand how to go from the output to an image level prediction (max-pool). (Hint: This part will be implemented in ``train()`` and ``validate()``.
+#### Q 1.1 Fill in each of the TODO parts in `AlexNet.py`. Next, fill the TODO parts in `task_1.py`except the functions ``metric1``, ``metric2`` and ``LocalizerAlexNetRobust``. You may need to refer to [1] for their choice of loss function and optimizer. As you may observe, the output of the above model has some spatial resolution. Make sure you read paper [1] and understand how to go from the output to an image-level prediction (max-pool). (Hint: This part will be implemented in ``train()`` and ``validate()``. For each of the TODO, describe the functionality of that part using appropriate comments. 
 
 #### Q 1.2 What is the output resolution of the model?
 
@@ -133,30 +129,31 @@ You can also use it to save models, perform hyperparameter tuning, share your re
 
 When you're logging to WandB, make sure you use good tag names. For example, for all training plots you can use ``train/loss``, ``train/metric1``, etc and for validation ``validation/metric1``, etc.
 
+In this task, we will be logging losses, metrics, and images. Ensure that you're familiar with how to do these.
+
 #### Q 1.3 Initialize the model from ImageNet (till the conv5 layer). Initialize the rest of layers with Xavier initialization and train the model using batchsize=32, learning rate=0.01, epochs=2 (Yes, only 2 epochs for now).(Hint: also try lr=0.1 - best value varies with implementation of loss)
-- Use wandb to plot the training loss curve.
-- Use wandb to plot images and the rescaled heatmaps for only the GT classes for 2 batches (1 images in each batch) in every epoch (uniformly spaced in iterations).
+- Use wandb to plot the training loss curve at every iteration.
+- We also want to visualize where the network is "looking" for objects during classification. We can use the model's outputs for this. For example, to see where the class 0 is being localized, we can access the channel corresponding to class 0 in the model output. Use wandb to plot images and the rescaled heatmaps (to image resolution) for any GT class for 2 images at epoch 0 and epoch 1. The images and corresponding GT label should be the same across epochs so you can monitor how the network is learning to localize objects. (Hint: a heatmap has values between 0 and 1 while the model output does not!)
 
 #### Q 1.4 In the first few iterations, you should observe a steep drop in the loss value. Why does this happen? (Hint: Think about the labels associated with each image).
 
-#### Q 1.5 We will log two metrics during training to see if our model is improving progressively with iterations. The first metric is a standard metric for multi-label classification. Do you remember what this is? Write the code for this metric in the TODO block for ``metric1`` (make sure you handle all the boundary cases). However, ``metric1`` is to some extent not robust to the issue we identified in Q1.4. The second metric, Recall, is more tuned to this dataset. Even though there is a steep drop in loss in the first few iterations ``metric2`` should remain almost constant. Implement it in the TODO block for ``metric2``. (Make any assumptions needed - like thresholds).
+#### Q 1.5 We will log two metrics during training to see if our model is improving progressively with iterations. The first metric is a standard metric for multi-label classification. Do you remember what this is (mention it in the report)? Write the code for this metric in the TODO block for ``metric1`` (make sure you handle all the boundary cases). However, ``metric1`` is to some extent not robust to the issue we identified in Q1.4. The second metric, Recall, is more tuned to this dataset. Even though there is a steep drop in loss in the first few iterations ``metric2`` should remain almost constant. Implement it in the TODO block for ``metric2``. (Make any assumptions needed - like thresholds). Feel free to use libraries like ``sklearn``.
 
 ### We're ready to train now!
 
 #### Q 1.6 Initialize the model from ImageNet (till the conv5 layer), initialize the rest of layers with Xavier initialization and train the model using batchsize=32, learning rate=0.01, epochs=30. Evaluate every 2 epochs. (Hint: also try lr=0.1 - best value varies with implementation of loss) \[Expected training time: 45mins-75mins].
 - IMPORTANT: FOR ALL EXPERIMENTS FROM HERE - ENSURE THAT THE SAME IMAGES ARE PLOTTED ACROSS EXPERIMENTS BY KEEPING THE SAMPLED BATCHES IN THE SAME ORDER. THIS CAN BE DONE BY FIXING THE RANDOM SEEDS BEFORE CREATING DATALOADERS.
-- Use wandb to plot the training loss curve, training ``metric1``, training ``metric2``
-- Use wandb to plot the mean validation ``metric1`` and mean validation ``metric2`` for every 2 epochs.
-- Use wandb to plot images and the rescaled heatmaps for only the GT classes for 2 batches (1 images in each batch) at the end of the 1st, 15th, and last(30th) epoch. 
-
+- Use wandb to plot the training loss curve, training ``metric1``, training ``metric2`` at every iteration.
+- Use wandb to plot the mean validation ``metric1`` and mean validation ``metric2`` every 2 epochs.
+- Use wandb to plot images and the rescaled heatmaps for one of the GT classes for 2 images every 15 epochs (i.e., at the end of the 1st, 15th, and 30th epoch)
 - At the end of training, use wandb to plot 3 randomly chosen images and corresponding heatmaps (similar to above) from the validation set.
 - In your report, mention the training loss, training and validation ``metric1`` and ``metric2`` achieved at the end of training. 
 
 
 #### Q 1.7 In the heatmap visualizations you observe that there are usually peaks on salient features of the objects but not on the entire objects. How can you fix this in the architecture of the model? (Hint: during training the max-pool operation picks the most salient location). Implement this new model in ``LocalizerAlexNetRobust`` and also implement the corresponding ``localizer_alexnet_robust()``. Train the model using batchsize=32, learning rate=0.01, epochs=45. Evaluate every 2 epochs.(Hint: also try lr=0.1 - best value varies with implementation of loss)
-- Hints:
+- Hint:
     - You do not have to change the backbone AlexNet for implementing this. Think about how the network may try to use certain salient parts of the object more and what maybe a quick and easy way to prevent it.
-- For this question only visualize images and heatmaps using wandb at similar intervals as before (ensure that the same images are plotted). 
+- For this question only visualize images and heatmaps using wandb every 15 epochs as before (ensure that the same images are plotted). 
 - You don't have to plot the rest of the quantities that you did for previous questions (if you haven't put flags to turn off logging the other quantities, it's okay to log them too - just don't add them to the report).
 - At the end of training, use wandb to plot 3 randomly chosen images (same images as Q1.6) and corresponding heatmaps from the validation set.
 - Report the training loss, training and validation ``metric1`` and ``metric2`` achieved at the end of training. 
@@ -225,29 +222,39 @@ Report the final class-wise AP on the test set and the mAP.
 
 
 # Submission Checklist 
+
+In all the following tasks, coding and analysis, please write a short summary of what you tried, what worked (or didn't), and what you learned, in the report. Write the code into the files as specified. Submit a zip file (`ANDREWID.zip`) with all the code files, and a single `REPORT.pdf`, which should have commands that TAs can run to re-produce your results/visualizations etc. Also mention any collaborators or other sources used for different parts of the assignment.
+
 ## Report
 
 ### Task 0
-- [ ] Answer Q0.1, Q0.2
+- [ ] Answer Q0.1
+- [ ] wandb screenshot for Q0.2
 - [ ] wandb screenshot for Q0.3
-- [ ] wandb screenshot for Q0.4
 ### Task 1
-- [ ] Q1.1 describe functionality of the completed TODO blocks
+- [ ] Q1.1 describe functionality of the completed TODO blocks with comments
 - [ ] Answer Q1.2
+- [ ] Q1.3
+  - [ ] Add screenshot of training loss
+  - [ ] Screenshot of wandb showing images and heat maps for the first logged epoch
+  - [ ] Screenshot of wandb showing images and heat maps for the second logged epoch
 - [ ] Answer Q1.4
-- [ ] Answer Q1.5 and describe functionality of the completed TODO blocks
+- [ ] Answer Q1.5 and mention the assumptions
 - [ ] Q1.6
 	- [ ] Add screenshot of metric1, metric2 on the training set
 	- [ ] Add screenshot of metric1, metric2 on the validation set
-	- [ ] Screenshot of wandb showing images and heat maps for the first logged epoch
-	- [ ] Screenshot of wandb showing images and heat maps for the last logged epoch
-	- [ ] wandb screenshot for 3 randomly chosen validation images and heat maps
+	- [ ] Screenshot of wandb showing images and heat maps for the first logged epoch \*show image and heatmap side-by-side\*.
+	- [ ] Screenshot of wandb showing images and heat maps for the 15th logged epoch \*show image and heatmap side-by-side\*.
+	- [ ] Screenshot of wandb showing images and heat maps for the last logged epoch \*show image and heatmap side-by-side\*.
+	- [ ] wandb screenshot for 3 randomly chosen validation images and heat maps \*show image and heatmap side-by-side\*.
 	- [ ] Report training loss, validation metric1, validation metric2 at the end of training
 
 - [ ] Q1.7 
-	- [ ] Screenshot of wandb showing images and heat maps for the first logged epoch \*for Q1.6 and Q1.7 show image and heatmap side-by-side\*.
-	- [ ] Screenshot of wandb showing images and heat maps for the last logged epoch \*for Q1.6 and Q1.7 show image and heatmap side-by-side\*.
-	- [ ] wandb screenshot for 3 randomly chosen validation images (but same images as Q1.6) and heat maps
+	- [ ] Screenshot of wandb showing images and heat maps for the first logged epoch \*show image and heatmap side-by-side\*.
+	- [ ] Screenshot of wandb showing images and heat maps for the 15th logged epoch \*show image and heatmap side-by-side\*.
+	- [ ] Screenshot of wandb showing images and heat maps for the 30th logged epoch \*show image and heatmap side-by-side\*.
+	- [ ] Screenshot of wandb showing images and heat maps for the last logged epoch \*show image and heatmap side-by-side\*.
+	- [ ] wandb screenshot for 3 randomly chosen validation images (but same images as Q1.6) and heat maps \*show image and heatmap side-by-side\*.
 	- [ ] Report training loss, validation metric1, validation metric2 at the end of training
 
 ### Task 2

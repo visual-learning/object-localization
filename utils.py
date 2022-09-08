@@ -1,18 +1,16 @@
+import copy
 import os
 import random
 import time
-import copy
 
+import numpy as np
 import torch
-
 import torch.nn as nn
 import torch.nn.functional as F
 import torchvision.transforms as transforms
-import torchvision.models as models
-import numpy as np
 
 
-#TODO: given bounding boxes and corresponding scores, perform non max suppression
+# TODO: given bounding boxes and corresponding scores, perform non max suppression
 def nms(bounding_boxes, confidence_score, threshold=0.05):
     """
     bounding boxes of shape     Nx4
@@ -26,7 +24,7 @@ def nms(bounding_boxes, confidence_score, threshold=0.05):
     return boxes, scores
 
 
-#TODO: calculate the intersection over union of two boxes
+# TODO: calculate the intersection over union of two boxes
 def iou(box1, box2):
     """
     Calculates Intersection over Union for two bounding boxes (xmin, ymin, xmax, ymax)
@@ -72,7 +70,3 @@ def get_box_data(classes, bbox_coordinates):
         ]
 
     return box_list
-
-
-
-
