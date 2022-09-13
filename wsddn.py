@@ -26,7 +26,7 @@ class WSDDN(nn.Module):
             self.n_classes = len(classes)
             print(classes)
 
-        #TODO: Define the WSDDN model
+        #TODO (Q2.1): Define the WSDDN model
         self.features   = None
         self.roi_pool   = None
         self.classifier = None
@@ -50,7 +50,7 @@ class WSDDN(nn.Module):
                 ):
         
 
-        #TODO: Use image and rois as input
+        #TODO (Q2.1): Use image and rois as input
         # compute cls_prob which are N_roi X 20 scores
         
         
@@ -72,7 +72,7 @@ class WSDDN(nn.Module):
         :returns: loss
 
         """
-        #TODO: Compute the appropriate loss using the cls_prob that is the
+        #TODO (Q2.1): Compute the appropriate loss using the cls_prob that is the
         #output of forward()
         #Checkout forward() to see how it is called
 
