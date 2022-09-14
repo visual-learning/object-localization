@@ -207,9 +207,9 @@ For mAP, the computation is slightly different for Q2. The overall algorithm wil
 2. Now we want to find the precision/recall values (for each class separately) and for this we require TP and FP (Check the blog post).
 3. To do this, iterate over your bbox predictions for the entire dataset
 (Note: this is for a given class. You should iterate in sorted order based on predicted scores for entire validation set)
-  3a. If there is no gt_bbox for this image mark your prediction as a "false positive (fp)"
-  3b. But if there is some gt_bbox, find the iou(gt_bbox, pred_bbox), and if this iou value is greater than some threshold then mark it as a "tp" else mark it as a "fp"(again).
-  3c. If you did find some gt_bbox that matched your prediction mark it as used since you cannot use it again. Now calculate precision and recall, precision should be tp/tp+fp and recall should be tp/allgtbboxes
+  - If there is no gt_bbox for this image mark your prediction as a "false positive (fp)"
+  - But if there is some gt_bbox, find the iou(gt_bbox, pred_bbox), and if this iou value is greater than some threshold then mark it as a "tp" else mark it as a "fp"(again).
+  - If you did find some gt_bbox that matched your prediction mark it as used since you cannot use it again. Now calculate precision and recall, precision should be tp/tp+fp and recall should be tp/allgtbboxes
 
 At this point, we have our model giving us (N_boxes x 20) scores. We can interpret this as follows - for each of the 20 classes, there are `N` boxes, which have confidence scores for that particular class. Now, we need to perform Non-Max Suppression for the bbox scores corresponding to each class.
 - In `utils.py`, write the NMS function. NMS depends on the calculation of Intersection Over Union (IoU), which you can either implement as a separate function, or vectorize within the NMS function itself. Use an IoU threshold of 0.3.
