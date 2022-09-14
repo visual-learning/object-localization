@@ -23,7 +23,7 @@ from PIL import Image, ImageDraw
 # ------------
 parser = argparse.ArgumentParser(description='PyTorch ImageNet Training')
 parser.add_argument(
-    '--lr-decay-steps',
+    '--lr',
     default=0.0001,
     type=float,
     description='Learning rate'
@@ -70,17 +70,32 @@ parser.add_argument(
     type=int,
     description='Interval at which to perform visualization'
 )
+parser.add_argument(
+    '--use-wandb',
+    default=False,
+    type=bool,
+    description='Flag to enable visualization'
+)
 # ------------
 
 # Set random seed
 rand_seed = 1024
 if rand_seed is not None:
     np.random.seed(rand_seed)
+    torch.manual_seed(rand_seed)
 
 # Set output directory
 output_dir = "./"
 if not os.path.exists(output_dir):
     os.makedirs(output_dir)
+
+
+def calculate_map():
+    """
+    Calculate the mAP for classification.
+    """
+    #TODO (Q2.3): Calculate mAP on test set
+    pass
 
 
 def test_model(model, val_loader=None, thresh=0.05):
@@ -110,17 +125,16 @@ def test_model(model, val_loader=None, thresh=0.05):
                 pass
 
             #TODO (Q2.3): visualize bounding box predictions when required
-            #TODO (Q2.3): Calculate mAP on test set
+            calculate_map()
 
 
 def train_model(model, train_loader=None, val_loader=None, optimizer=None, args=None):
     """
     Trains the network, runs evaluation and visualizes the detections
     """
+    # Initialize training variables
     train_loss = 0
-    tp, tf, fg, bg = 0., 0., 0, 0
     step_cnt = 0
-    re_cnt = False
     for epoch in range(args.epochs):
         for iter, data in enumerate(train_loader):
 
@@ -171,7 +185,7 @@ def main():
     """
     args = parser.parse_args()
     # TODO (Q2.2): Load datasets and create dataloaders
-
+    # Initialize wandb logger
     train_dataset = None
     val_dataset = None
 
@@ -223,9 +237,9 @@ def main():
     net.cuda()
     net.train()
 
-    # TODO (Q2.2): Create optimizer for network parameters from conv2 onwards
-    # (do not optimize conv1)
-    # Freeze AlexNet layers since we are loading a pretrained model
+    # TODO (Q2.2): Freeze AlexNet layers since we are loading a pretrained model
+
+    # TODO (Q2.2): Create optimizer only for network parameters that are trainable
 
 
     # Training
