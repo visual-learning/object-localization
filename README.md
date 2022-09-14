@@ -161,7 +161,11 @@ In this task, we will be logging losses, metrics, and images. Ensure that you're
 
 ## Task 2: Weakly Supervised Deep Detection Networks
 
-First, make sure you understand the WSDDN model. 
+First, make sure you understand the WSDDN model.
+
+Now that we've implemented object detection, let us predict bounding boxes around the objects! Remember we visualized bounding boxes from the selective search data in Q0? Selective search is a region proposal algorithm that takes an image as the input and outputs bounding boxes corresponding to all patches in an image that are most likely to be objects. The ``BoxScores`` data point gives high scores for the bounding boxes with best overlap.
+
+In WSDDN, the images and region proposals are taken as input into the ``spatial pyramid pooling`` (SPP) layer, both classification and detection is done on these regions, and class scores and region scores are computed & combined to predict the best possible bounding box. Understand this portion from the paper clearly.
 
 The main script for training is ``task_2.py``.  Read all the comments to understand what each part does. There are a few major components that you need to work on:
 
@@ -188,11 +192,24 @@ The `build_loss()` function now computes classification loss, which can be acces
 
 
 #### Q2.2 In ``task_2.py`` you will first need to write the training loop.
-This involves creating the dataset, calling the dataloaders, etc. and then finally starting the training loop with the forward and backward passes. Some of this functionality has already been implemented for you. Ideally, use the hyperparameters given in the code. You don't need to implement the visualizations yet.
+This involves creating the dataset, calling the dataloaders, creating the optimizer, etc. and then finally starting the training loop with the forward and backward passes. Some of this functionality has already been implemented for you. Ideally, use the hyperparameters given in the code. You don't need to implement the visualizations yet.
 Use `top_n=300`, but feel free to increase it as well.
 
 #### Q2.3 In ``task_2.py``, you now need to write a function to test your model, and visualize its predictions.
 1. Write a test loop similar to the training loop, and calculate mAP as well as class-wise AP's.
+
+To calculate the AP for each class correctly read this blog post:
+https://jonathan-hui.medium.com/map-mean-average-precision-for-object-detection-45c121a31173
+
+For mAP, the computation is slightly different for Q2. The overall algorithm will then be something like:
+
+1. Take all the model bbox predictions for your validation set and filter out those with low scores.
+2. Now we want to find the precision/recall values (for each class separately) and for this we require TP and FP (Check the blog post).
+3. To do this, iterate over your bbox predictions for the entire dataset
+(Note: this is for a given class. You should iterate in sorted order based on predicted scores for entire validation set)
+  - If there is no gt_bbox for this image mark your prediction as a "false positive (fp)"
+  - But if there is some gt_bbox, find the iou(gt_bbox, pred_bbox), and if this iou value is greater than some threshold then mark it as a "tp" else mark it as a "fp"(again).
+  - If you did find some gt_bbox that matched your prediction mark it as used since you cannot use it again. Now calculate precision and recall, precision should be tp/tp+fp and recall should be tp/allgtbboxes
 
 At this point, we have our model giving us (N_boxes x 20) scores. We can interpret this as follows - for each of the 20 classes, there are `N` boxes, which have confidence scores for that particular class. Now, we need to perform Non-Max Suppression for the bbox scores corresponding to each class.
 - In `utils.py`, write the NMS function. NMS depends on the calculation of Intersection Over Union (IoU), which you can either implement as a separate function, or vectorize within the NMS function itself. Use an IoU threshold of 0.3.
@@ -203,7 +220,7 @@ At this point, we have our model giving us (N_boxes x 20) scores. We can interpr
 #### Q2.4 In ``task_2.py``, there are places for you perform visualization (search for TODO). You need to perform the appropriate visualizations mentioned here:
 - Plot the average loss every 500 iterations (feel free to use the AverageMeter class from `task_1.py`) using wandb. 
 - Use wandb to plot mAP on the *test* set every epoch.
-- Plot the class-wise APs at every epoch.
+- Plot the class-wise APs at every epoch for at least 5 classes.
 - Plot bounding boxes on 10 random images at the end of the first epoch, and at the end of the last epoch. (You can visualize for more images, and choose whichever ones you feel represent the learning of the network the best. It's also interesting to see the kind of mistakes the network makes as it is learning, and also after it has learned a little bit!)
 
 #### Q2.5 Train the model using the hyperparameters provided for 5-6 epochs.
@@ -216,7 +233,7 @@ Some caveats for Train loss and Test mAP:
 - In case you have tried a lot and still cannot get a loss around ~1.0 then add *one plot for all of your valid tries* and add it to the report. Also, add 2-3 lines on what you believe is the reason for the observed behavior.
 - Test AP (for detection) can show variance across different classes hence look at the mean value (mAP).
 
-Include all the code and images/logs after training.
+Include all the code and images/logs after training. Include appropriate comments on how you calculated class-wise AP and mAP.
 Report the final class-wise AP on the test set and the mAP.
 
 
@@ -258,11 +275,12 @@ In all the following tasks, coding and analysis, please write a short summary of
 	- [ ] Report training loss, validation metric1, validation metric2 at the end of training
 
 ### Task 2
+- [ ] Q2.3 detailed code comments on how classwise AP and mAP are calculated
 - [ ] Q2.4 wandb downloaded image of training loss vs iterations
 - [ ] Q2.4 wandb downloaded image of test mAP vs iterations plot
-- [ ] Q2.4 screenshot for class-wise APs vs iterations for 3 or more classes
-- [ ] Q2.4 screenshot of images with predicted boxes for the first logged epoch
-- [ ] Q2.4 screenshot of images with predicted boxes for the last logged epoch (~5 epochs)
+- [ ] Q2.4 screenshot for class-wise APs vs iterations for 5 classes
+- [ ] Q2.4 screenshot of 10 images with predicted boxes for the first logged epoch
+- [ ] Q2.4 screenshot of 10 images with predicted boxes for the last logged epoch (~5 epochs)
 - [ ] Q2.4 report final classwise APs on the test set and mAP on the test set
 
 ## Other Data
