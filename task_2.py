@@ -94,7 +94,7 @@ def calculate_map():
     """
     Calculate the mAP for classification.
     """
-    #TODO (Q2.3): Calculate mAP on test set
+    #TODO (Q2.3): Calculate mAP on test set. Write necessary function parameters.
     pass
 
 
