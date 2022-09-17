@@ -12,7 +12,7 @@
 ## Introduction
 In this assignment, we will learn to train object detectors with only image-level annotations and no bounding box annotations! First, in task 1, we will use classification models and examine their backbone features for object localization cues. In task 2, we will train object detectors in the *weakly supervised* setting, which means we're going to train an object detector without bounding box annotations!
 
-When we use a classification network like AlexNet, it often contains ReLU activations. Therefore, in order to maximize the likelihood for a given class, we can expect high activations in the feature map. Since CNNs preserve spatial locality, this means that the model implicitly learns to produce high activations around the regions where an object is present. We will use this property to approximately localize the object in the image. This is called a weakly-supervised paradigm: supervised because we have image-level classification labels, but weak since we don't have ground-truth bounding boxes. 
+When we use a classification network like AlexNet, it often contains ReLU activation functions. Therefore, in order to maximize the likelihood for a given class, we can expect high activations in the feature map. Since CNNs preserve spatial locality, this means that the model implicitly learns to produce high activations around the regions where an object is present. We will use this property to approximately localize the object in the image. This is called a weakly-supervised paradigm: supervised because we have image-level classification labels, but weak since we don't have ground-truth bounding boxes. 
 
 We will use the [PyTorch](pytorch.org) framework to design our models, train and test them. We will also be using [Weights and Biases](https://wandb.ai/site) for visualizations and to log our metrics. This assignment borrows heavily from the [previous version](https://bitbucket.org/cmu16824_spring2020/2020_hw2_release/src/master/), but is now upgraded to Python 3, and does not depend upon the now deprecated Faster-RCNN repository.
 
@@ -45,7 +45,7 @@ If this doesn't work, feel free to install the dependencies using conda/pip. For
 
 We will train and test using the [PASCAL VOC 2007](http://host.robots.ox.ac.uk/pascal/VOC/voc2007/index.html) data. The Pascal VOC dataset comes with bounding box annotations, however, we will not use bounding box annotations in the weakly-supervised setting. 
 
-1. We first need to download the image dataset and annotations. Use the following commands to setup the data, and lets say it is stored at location `$DATA_DIR`.
+1. We first need to download the image dataset and annotations. Use the following commands to setup the data, and let's say it is stored at location `$DATA_DIR`.
 ```bash
 $ # First, cd to a location where you want to store ~0.5GB of data.
 $ wget http://host.robots.ox.ac.uk/pascal/VOC/voc2007/VOCtrainval_06-Nov-2007.tar
