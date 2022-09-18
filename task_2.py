@@ -94,7 +94,8 @@ def calculate_map():
     """
     Calculate the mAP for classification.
     """
-    #TODO (Q2.3): Calculate mAP on test set. Write necessary function parameters.
+    # TODO (Q2.3): Calculate mAP on test set.
+    # Feel free to write necessary function parameters.
     pass
 
 
@@ -107,14 +108,14 @@ def test_model(model, val_loader=None, thresh=0.05):
         for iter, data in enumerate(val_loader):
 
             # one batch = data for one image
-            image           = data['image']
-            target          = data['label']
-            wgt             = data['wgt']
-            rois            = data['rois']
-            gt_boxes        = data['gt_boxes']
-            gt_class_list   = data['gt_classes']
+            image = data['image']
+            target = data['label']
+            wgt = data['wgt']
+            rois = data['rois']
+            gt_boxes = data['gt_boxes']
+            gt_class_list = data['gt_classes']
 
-            #TODO (Q2.3): perform forward pass, compute cls_probs
+            # TODO (Q2.3): perform forward pass, compute cls_probs
 
 
             # TODO (Q2.3): Iterate over each class (follow comments)
@@ -124,7 +125,7 @@ def test_model(model, val_loader=None, thresh=0.05):
                 # use NMS to get boxes and scores
                 pass
 
-            #TODO (Q2.3): visualize bounding box predictions when required
+            # TODO (Q2.3): visualize bounding box predictions when required
             calculate_map()
 
 
@@ -138,21 +139,18 @@ def train_model(model, train_loader=None, val_loader=None, optimizer=None, args=
     for epoch in range(args.epochs):
         for iter, data in enumerate(train_loader):
 
-            #TODO (Q2.2): get one batch and perform forward pass
+            # TODO (Q2.2): get one batch and perform forward pass
             # one batch = data for one image
-            image           = data['image']
-            target          = data['label']
-            wgt             = data['wgt']
-            rois            = data['rois']
-            gt_boxes        = data['gt_boxes']
-            gt_class_list   = data['gt_classes']
+            image = data['image']
+            target = data['label']
+            wgt = data['wgt']
+            rois = data['rois']
+            gt_boxes = data['gt_boxes']
+            gt_class_list = data['gt_classes']
 
-
-            #TODO (Q2.2): perform forward pass - take care that proposal values should be in pixels for the fwd pass
+            # TODO (Q2.2): perform forward pass
+            # take care that proposal values should be in pixels
             # Convert inputs to cuda if training on GPU
-
-
-
 
 
             # backward pass and update
@@ -164,19 +162,18 @@ def train_model(model, train_loader=None, val_loader=None, optimizer=None, args=
             loss.backward()
             optimizer.step()
 
-            #TODO (Q2.2): evaluate the model every N iterations (N defined in handout)
+            # TODO (Q2.2): evaluate the model every N iterations (N defined in handout)
             # Add wandb logging wherever necessary
-            if iter%args.val_interval == 0 and iter != 0:
+            if iter % args.val_interval == 0 and iter != 0:
                 model.eval()
                 ap = test_model(model, val_loader)
                 print("AP ", ap)
                 model.train()
 
+            # TODO (Q2.4): Perform all visualizations here
+            # The intervals for different things are defined in the handout
 
-            #TODO (Q2.4): Perform all visualizations here
-            #The intervals for different things are defined in the handout
-    
-    #TODO (Q2.4): Plot class-wise APs
+    # TODO (Q2.4): Plot class-wise APs
 
 
 def main():
@@ -215,8 +212,8 @@ def main():
     else:
         pret_net = model_zoo.load_url(
             'https://download.pytorch.org/models/alexnet-owt-4df8aa71.pth')
-        pkl.dump(pret_net, open('pretrained_alexnet.pkl', 'wb'),
-                pkl.HIGHEST_PROTOCOL)
+        pkl.dump(pret_net,
+        open('pretrained_alexnet.pkl', 'wb'), pkl.HIGHEST_PROTOCOL)
     own_state = net.state_dict()
 
     for name, param in pret_net.items():
@@ -240,7 +237,7 @@ def main():
     # TODO (Q2.2): Freeze AlexNet layers since we are loading a pretrained model
 
     # TODO (Q2.2): Create optimizer only for network parameters that are trainable
-
+    optimizer = None
 
     # Training
     train_model(net, train_loader, optimizer, args)

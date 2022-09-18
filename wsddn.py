@@ -1,12 +1,10 @@
+import numpy as np
 import torch
 import torchvision
 import torch.utils.data as data
 import torch.nn as nn
 import torch.utils.model_zoo as model_zoo
 import torch.nn.functional as F
-
-import numpy as np
-
 from torchvision.ops import roi_pool, roi_align
 
 
@@ -26,18 +24,16 @@ class WSDDN(nn.Module):
             self.n_classes = len(classes)
             print(classes)
 
-        #TODO (Q2.1): Define the WSDDN model
-        self.features   = None
-        self.roi_pool   = None
+        # TODO (Q2.1): Define the WSDDN model
+        self.features = None
+        self.roi_pool = None
         self.classifier = None
 
-        self.score_fc   = None
-        self.bbox_fc    = None
+        self.score_fc = None
+        self.bbox_fc = None
 
-        
         # loss
         self.cross_entropy = None
-
 
     @property
     def loss(self):
@@ -48,22 +44,18 @@ class WSDDN(nn.Module):
                 rois=None,
                 gt_vec=None,
                 ):
-        
 
-        #TODO (Q2.1): Use image and rois as input
+
+        # TODO (Q2.1): Use image and rois as input
         # compute cls_prob which are N_roi X 20 scores
-        
-        
         cls_prob = None
 
 
         if self.training:
             label_vec = gt_vec.view(self.n_classes, -1)
             self.cross_entropy = self.build_loss(cls_prob, label_vec)
-        
         return cls_prob
 
-    
     def build_loss(self, cls_prob, label_vec):
         """Computes the loss
 
@@ -72,8 +64,9 @@ class WSDDN(nn.Module):
         :returns: loss
 
         """
-        #TODO (Q2.1): Compute the appropriate loss using the cls_prob that is the
-        #output of forward()
-        #Checkout forward() to see how it is called
+        # TODO (Q2.1): Compute the appropriate loss using the cls_prob
+        # that is the output of forward()
+        # Checkout forward() to see how it is called
+        loss = None
 
         return loss

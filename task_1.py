@@ -17,16 +17,13 @@ import torch.utils.data.distributed
 import torchvision.transforms as transforms
 import torchvision.datasets as datasets
 import torchvision.models as models
-
+import wandb
 
 from AlexNet import localizer_alexnet, localizer_alexnet_robust
 from voc_dataset import *
 from utils import *
 
-import wandb
 USE_WANDB = False  # use flags, wandb is not convenient for debugging
-
-
 model_names = sorted(name for name in models.__dict__
                      if name.islower() and not name.startswith("__")
                      and callable(models.__dict__[name]))
@@ -140,6 +137,8 @@ def main():
 
     # TODO (Q1.1): define loss function (criterion) and optimizer from [1]
     # also use an LR scheduler to decay LR by 10 every 30 epochs
+    criterion = None
+    optimizer = None
 
 
     # optionally resume from a checkpoint
@@ -160,11 +159,14 @@ def main():
 
     # Data loading code
 
-    # TODO (Q1.1): Create Datasets and Dataloaders using VOCDataset - Ensure that the sizes are 512x512
-    # Also ensure that data directories are correct - the ones use for testing by TAs might be different
-
-
+    # TODO (Q1.1): Create Datasets and Dataloaders using VOCDataset
+    # Ensure that the sizes are 512x512
+    # Also ensure that data directories are correct
+    # The ones use for testing by TAs might be different
+    train_dataset = None
+    val_dataset = None
     train_sampler = None
+
     train_loader = torch.utils.data.DataLoader(
         train_dataset,
         batch_size=args.batch_size,
@@ -228,12 +230,16 @@ def train(train_loader, model, criterion, optimizer, epoch):
         data_time.update(time.time() - end)
 
         # TODO (Q1.1): Get inputs from the data dict
-
+        # Convert inputs to cuda if training on GPU
+        target = None
 
         # TODO (Q1.1): Get output from model
+        imoutput = None
+
         # TODO (Q1.1): Perform any necessary operations on the output
+
         # TODO (Q1.1): Compute loss using ``criterion``
-        
+        loss = None
 
         # measure metrics and record loss
         m1 = metric1(imoutput.data, target)
@@ -283,12 +289,16 @@ def validate(val_loader, model, criterion, epoch=0):
     for i, (data) in enumerate(val_loader):
 
         # TODO (Q1.1): Get inputs from the data dict
-
+        # Convert inputs to cuda if training on GPU
+        target = None
 
         # TODO (Q1.1): Get output from model
-        # TODO (Q1.1): Perform any necessary functions on the output
-        # TODO (Q1.1): Compute loss using ``criterion``
+        imoutput = None
 
+        # TODO (Q1.1): Perform any necessary functions on the output
+
+        # TODO (Q1.1): Compute loss using ``criterion``
+        loss = None
 
         # measure metrics and record loss
         m1 = metric1(imoutput.data, target)

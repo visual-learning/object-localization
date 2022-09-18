@@ -12,7 +12,7 @@
 ## Introduction
 In this assignment, we will learn to train object detectors with only image-level annotations and no bounding box annotations! First, in task 1, we will use classification models and examine their backbone features for object localization cues. In task 2, we will train object detectors in the *weakly supervised* setting, which means we're going to train an object detector without bounding box annotations!
 
-When we use a classification network like AlexNet, it often contains ReLU activation functions. Therefore, in order to maximize the likelihood for a given class, we can expect high activations in the feature map. Since CNNs preserve spatial locality, this means that the model implicitly learns to produce high activations around the regions where an object is present. We will use this property to approximately localize the object in the image. This is called a weakly-supervised paradigm: supervised because we have image-level classification labels, but weak since we don't have ground-truth bounding boxes. 
+When we use a classification network like AlexNet, it is trained using a classification loss (cross-entropy). Therefore, in order to minimize this loss function, the network maximizes the likelihood for a given class. Since CNNs preserve spatial locality, this means that the model implicitly learns to produce high activations in the feature map around the regions where an object is present. We will use this property to approximately localize the object in the image. This is called a weakly-supervised paradigm: supervised because we have image-level classification labels, but weak since we don't have ground-truth bounding boxes. 
 
 We will use the [PyTorch](pytorch.org) framework to design our models, train and test them. We will also be using [Weights and Biases](https://wandb.ai/site) for visualizations and to log our metrics. This assignment borrows heavily from the [previous version](https://bitbucket.org/cmu16824_spring2020/2020_hw2_release/src/master/), but is now upgraded to Python 3, and does not depend upon the now deprecated Faster-RCNN repository.
 
@@ -121,7 +121,7 @@ LocalizerAlexNet(
 Logging to [Weights and Biases](https://docs.wandb.ai/quickstart), also known as `wandb` is quite easy and super useful. You can use this to keep track of experiment hyperparameters and metrics such as loss/accuracy.
 ```python
 import wandb
-wandb.init(project="vlr-hw2")
+wandb.init(project="vlr-hw1")
 # logging the loss
 wandb.log({'epoch': epoch, 'loss': loss})
 ```

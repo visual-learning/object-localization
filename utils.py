@@ -19,7 +19,7 @@ def nms(bounding_boxes, confidence_score, threshold=0.05):
 
     return: list of bounding boxes and scores
     """
-
+    boxes, scores = None, None
 
     return boxes, scores
 
@@ -65,7 +65,7 @@ def get_box_data(classes, bbox_coordinates):
                 "maxX": bbox_coordinates[i][2],
                 "maxY": bbox_coordinates[i][3],
             },
-            "class_id" : classes[i],
+            "class_id": classes[i],
         } for i in range(len(classes))
         ]
 

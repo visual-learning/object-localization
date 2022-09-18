@@ -158,6 +158,7 @@ class VOCDataset(Dataset):
             2. Normalize in the range (0, 1) according to image size (be careful of width/height and x/y correspondences)
             3. Make sure to return only the top_n proposals based on proposal confidence ("boxScores")!
         """
+        proposals = None
 
 
         ret = {}

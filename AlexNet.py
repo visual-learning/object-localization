@@ -3,7 +3,7 @@ import torchvision.models as models
 
 
 model_urls = {
-        'alexnet': 'https://download.pytorch.org/models/alexnet-owt-4df8aa71.pth',
+    'alexnet': 'https://download.pytorch.org/models/alexnet-owt-4df8aa71.pth',
 }
 
 
