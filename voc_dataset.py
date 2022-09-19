@@ -70,7 +70,7 @@ class VOCDataset(Dataset):
 
     def preload_anno(self):
         """
-        :return: a list of labels. 
+        :return: a list of labels.
         each element is in the form of [class, weight, gt_class_list, gt_boxes]
          where both class and weight are arrays/tensors in shape of [20],
          gt_class_list is a list of the class ids (separate for each instance)
@@ -154,9 +154,11 @@ class VOCDataset(Dataset):
 
         """
         TODO:
-            1. Load bounding box proposals for the index from self.roi_data
+            1. Load bounding box proposals for the index from self.roi_data. The proposals are of the format:
+            [y_min, x_min, y_max, x_max] or [top left row, top left col, bottom right row, bottom right col]
             2. Normalize in the range (0, 1) according to image size (be careful of width/height and x/y correspondences)
             3. Make sure to return only the top_n proposals based on proposal confidence ("boxScores")!
+            4. You may have to write a custom collate_fn since some of the attributes below may be variable in number for each data point
         """
         proposals = None
 
