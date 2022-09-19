@@ -237,7 +237,11 @@ Include all the code and images/logs after training. Include appropriate comment
 Report the final class-wise AP on the test set and the mAP.
 
 
+## Task 3: Visualizing Class Activation Maps (Extra Credit)
 
+Another popular way to visualize how your network is learning is Class activation maps (as explained in the lecture)! In this task, we want you to experiment with state-of-the-art CAM methods (feel free to use existing implementations such as https://github.com/frgfm/torch-cam). Using a network you trained (in either task 1 or task 2), apply one (or more) CAM methods to visualize how well your network is doing. In the report, explain the implementation of the method you chose in 2-3 sentences. Additionally, add 2-3 visualizations in the report and try comparing and contrasting with the inferences you made using heatmaps.
+
+ 
 # Submission Checklist 
 
 In all the following tasks, coding and analysis, please write a short summary of what you tried, what worked (or didn't), and what you learned, in the report. Write the code into the files as specified. Submit a zip file (`ANDREWID.zip`) with all the code files, and a single `REPORT.pdf`, which should have commands that TAs can run to re-produce your results/visualizations etc. Also mention any collaborators or other sources used for different parts of the assignment.
@@ -282,6 +286,10 @@ In all the following tasks, coding and analysis, please write a short summary of
 - [ ] Q2.4 screenshot of 10 images with predicted boxes for the first logged epoch
 - [ ] Q2.4 screenshot of 10 images with predicted boxes for the last logged epoch (~5 epochs)
 - [ ] Q2.4 report final classwise APs on the test set and mAP on the test set
+
+### Task 3
+- [ ] Description of CAM method, 
+- [ ] 2-3 images to compare similarities/differences with previous tasks
 
 ## Other Data
 - [ ] code folder
