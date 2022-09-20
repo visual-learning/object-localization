@@ -135,6 +135,11 @@ In this task, we will be logging losses, metrics, and images. Ensure that you're
 #### Q 1.3 Initialize the model from ImageNet (till the conv5 layer). Initialize the rest of layers with Xavier initialization and train the model using batchsize=32, learning rate=0.01, epochs=2 (Yes, only 2 epochs for now).(Hint: also try lr=0.1 - best value varies with implementation of loss) (10 pt)
 - Use wandb to plot the training loss curve at every iteration.
 - We also want to visualize where the network is "looking" for objects during classification. We can use the model's outputs for this. For example, to see where the class 0 is being localized, we can access the channel corresponding to class 0 in the model output. Use wandb to plot images and the rescaled heatmaps (to image resolution) for any GT class for 2 images at epoch 0 and epoch 1. The images and corresponding GT label should be the same across epochs so you can monitor how the network is learning to localize objects. (Hint: a heatmap has values between 0 and 1 while the model output does not!)
+
+Here are a couple examples of what a heatmap should look like. They have been colorized using the 'jet' colormap:
+![Screenshot from 2022-09-20 09-59-07](https://user-images.githubusercontent.com/48148271/191279024-633b1193-1f8c-430e-9cb1-1e4e80395981.png)
+
+
 - Recommended training loss at the end of training: ~(0.15, 0.20)
 
 #### Q 1.4 In the first few iterations, you should observe a steep drop in the loss value. Why does this happen? (Hint: Think about the labels associated with each image). (2 pt)
