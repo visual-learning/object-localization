@@ -1,0 +1,183 @@
+2022-09-30 02:55:12,211 INFO    MainThread:6202 [internal.py:wandb_internal():95] W&B internal server running at pid: 6202, started at: 2022-09-30 02:55:12.210734
+2022-09-30 02:55:12,212 INFO    WriterThread:6202 [datastore.py:open_for_write():77] open: /mnt/data/object-localization/wandb/run-20220930_025504-2vluxemx/run-2vluxemx.wandb
+2022-09-30 02:55:12,213 DEBUG   SenderThread:6202 [sender.py:send():235] send: header
+2022-09-30 02:55:12,213 DEBUG   SenderThread:6202 [sender.py:send():235] send: run
+2022-09-30 02:55:12,386 DEBUG   HandlerThread:6202 [handler.py:handle_request():141] handle_request: check_version
+2022-09-30 02:55:12,386 INFO    SenderThread:6202 [dir_watcher.py:__init__():169] watching files in: /mnt/data/object-localization/wandb/run-20220930_025504-2vluxemx/files
+2022-09-30 02:55:12,387 INFO    SenderThread:6202 [sender.py:_start_run_threads():815] run started: 2vluxemx with start time 1664506511
+2022-09-30 02:55:12,387 DEBUG   SenderThread:6202 [sender.py:send():235] send: summary
+2022-09-30 02:55:12,387 INFO    SenderThread:6202 [sender.py:_save_file():947] saving file wandb-summary.json with policy end
+2022-09-30 02:55:12,387 DEBUG   SenderThread:6202 [sender.py:send_request():249] send_request: check_version
+2022-09-30 02:55:12,524 DEBUG   HandlerThread:6202 [handler.py:handle_request():141] handle_request: run_start
+2022-09-30 02:55:12,524 DEBUG   HandlerThread:6202 [meta.py:__init__():37] meta init
+2022-09-30 02:55:12,525 DEBUG   HandlerThread:6202 [meta.py:__init__():51] meta init done
+2022-09-30 02:55:12,525 DEBUG   HandlerThread:6202 [meta.py:probe():211] probe
+2022-09-30 02:55:12,526 DEBUG   HandlerThread:6202 [meta.py:_setup_git():201] setup git
+2022-09-30 02:55:12,536 DEBUG   HandlerThread:6202 [meta.py:_setup_git():208] setup git done
+2022-09-30 02:55:12,537 DEBUG   HandlerThread:6202 [meta.py:_save_pip():55] save pip
+2022-09-30 02:55:12,537 DEBUG   HandlerThread:6202 [meta.py:_save_pip():69] save pip done
+2022-09-30 02:55:12,537 DEBUG   HandlerThread:6202 [meta.py:_save_conda():76] save conda
+2022-09-30 02:55:13,388 INFO    Thread-7  :6202 [dir_watcher.py:_on_file_created():217] file/dir created: /mnt/data/object-localization/wandb/run-20220930_025504-2vluxemx/files/requirements.txt
+2022-09-30 02:55:13,388 INFO    Thread-7  :6202 [dir_watcher.py:_on_file_created():217] file/dir created: /mnt/data/object-localization/wandb/run-20220930_025504-2vluxemx/files/conda-environment.yaml
+2022-09-30 02:55:13,389 INFO    Thread-7  :6202 [dir_watcher.py:_on_file_created():217] file/dir created: /mnt/data/object-localization/wandb/run-20220930_025504-2vluxemx/files/wandb-summary.json
+2022-09-30 02:55:15,389 INFO    Thread-7  :6202 [dir_watcher.py:_on_file_modified():230] file/dir modified: /mnt/data/object-localization/wandb/run-20220930_025504-2vluxemx/files/conda-environment.yaml
+2022-09-30 02:55:15,422 DEBUG   HandlerThread:6202 [meta.py:_save_conda():86] save conda done
+2022-09-30 02:55:15,423 DEBUG   HandlerThread:6202 [meta.py:probe():249] probe done
+2022-09-30 02:55:15,449 DEBUG   SenderThread:6202 [sender.py:send():235] send: files
+2022-09-30 02:55:15,449 INFO    SenderThread:6202 [sender.py:_save_file():947] saving file wandb-metadata.json with policy now
+2022-09-30 02:55:15,457 DEBUG   HandlerThread:6202 [handler.py:handle_request():141] handle_request: stop_status
+2022-09-30 02:55:15,458 DEBUG   SenderThread:6202 [sender.py:send_request():249] send_request: stop_status
+2022-09-30 02:55:15,460 DEBUG   HandlerThread:6202 [handler.py:handle_request():141] handle_request: pause
+2022-09-30 02:55:15,460 INFO    HandlerThread:6202 [handler.py:handle_request_pause():659] stopping system metrics thread
+2022-09-30 02:55:15,539 DEBUG   HandlerThread:6202 [handler.py:handle_request():141] handle_request: resume
+2022-09-30 02:55:15,539 INFO    HandlerThread:6202 [handler.py:handle_request_resume():650] starting system metrics thread
+2022-09-30 02:55:15,541 DEBUG   HandlerThread:6202 [handler.py:handle_request():141] handle_request: pause
+2022-09-30 02:55:15,541 INFO    HandlerThread:6202 [handler.py:handle_request_pause():659] stopping system metrics thread
+2022-09-30 02:55:15,687 DEBUG   SenderThread:6202 [sender.py:send():235] send: telemetry
+2022-09-30 02:55:15,687 DEBUG   SenderThread:6202 [sender.py:send():235] send: stats
+2022-09-30 02:55:15,687 DEBUG   SenderThread:6202 [sender.py:send():235] send: stats
+2022-09-30 02:55:16,123 INFO    Thread-11 :6202 [upload_job.py:push():137] Uploaded file /tmp/tmpo48kltocwandb/17wsj8kw-wandb-metadata.json
+2022-09-30 02:55:16,390 INFO    Thread-7  :6202 [dir_watcher.py:_on_file_created():217] file/dir created: /mnt/data/object-localization/wandb/run-20220930_025504-2vluxemx/files/wandb-metadata.json
+2022-09-30 02:55:16,391 INFO    Thread-7  :6202 [dir_watcher.py:_on_file_created():217] file/dir created: /mnt/data/object-localization/wandb/run-20220930_025504-2vluxemx/files/output.log
+2022-09-30 02:55:17,326 DEBUG   HandlerThread:6202 [handler.py:handle_request():141] handle_request: resume
+2022-09-30 02:55:17,326 INFO    HandlerThread:6202 [handler.py:handle_request_resume():650] starting system metrics thread
+2022-09-30 02:55:17,336 DEBUG   HandlerThread:6202 [handler.py:handle_request():141] handle_request: pause
+2022-09-30 02:55:17,336 INFO    HandlerThread:6202 [handler.py:handle_request_pause():659] stopping system metrics thread
+2022-09-30 02:55:17,428 DEBUG   SenderThread:6202 [sender.py:send():235] send: stats
+2022-09-30 02:55:17,538 DEBUG   HandlerThread:6202 [handler.py:handle_request():141] handle_request: resume
+2022-09-30 02:55:17,539 INFO    HandlerThread:6202 [handler.py:handle_request_resume():650] starting system metrics thread
+2022-09-30 02:55:17,544 DEBUG   SenderThread:6202 [sender.py:send():235] send: telemetry
+2022-09-30 02:55:17,546 DEBUG   HandlerThread:6202 [handler.py:handle_request():141] handle_request: partial_history
+2022-09-30 02:55:17,547 DEBUG   SenderThread:6202 [sender.py:send():235] send: telemetry
+2022-09-30 02:55:18,390 INFO    Thread-7  :6202 [dir_watcher.py:_on_file_modified():230] file/dir modified: /mnt/data/object-localization/wandb/run-20220930_025504-2vluxemx/files/output.log
+2022-09-30 02:55:18,463 DEBUG   SenderThread:6202 [sender.py:send():235] send: exit
+2022-09-30 02:55:18,463 INFO    SenderThread:6202 [sender.py:send_exit():371] handling exit code: 0
+2022-09-30 02:55:18,464 INFO    SenderThread:6202 [sender.py:send_exit():373] handling runtime: 4
+2022-09-30 02:55:18,464 INFO    SenderThread:6202 [sender.py:_save_file():947] saving file wandb-summary.json with policy end
+2022-09-30 02:55:18,464 INFO    SenderThread:6202 [sender.py:send_exit():379] send defer
+2022-09-30 02:55:18,465 DEBUG   HandlerThread:6202 [handler.py:handle_request():141] handle_request: defer
+2022-09-30 02:55:18,465 INFO    HandlerThread:6202 [handler.py:handle_request_defer():164] handle defer: 0
+2022-09-30 02:55:18,465 DEBUG   SenderThread:6202 [sender.py:send_request():249] send_request: defer
+2022-09-30 02:55:18,465 INFO    SenderThread:6202 [sender.py:send_request_defer():388] handle sender defer: 0
+2022-09-30 02:55:18,465 INFO    SenderThread:6202 [sender.py:transition_state():392] send defer: 1
+2022-09-30 02:55:18,465 DEBUG   HandlerThread:6202 [handler.py:handle_request():141] handle_request: defer
+2022-09-30 02:55:18,465 INFO    HandlerThread:6202 [handler.py:handle_request_defer():164] handle defer: 1
+2022-09-30 02:55:18,542 DEBUG   HandlerThread:6202 [handler.py:handle_request():141] handle_request: poll_exit
+2022-09-30 02:55:18,543 DEBUG   SenderThread:6202 [sender.py:send_request():249] send_request: defer
+2022-09-30 02:55:18,543 INFO    SenderThread:6202 [sender.py:send_request_defer():388] handle sender defer: 1
+2022-09-30 02:55:18,543 INFO    SenderThread:6202 [sender.py:transition_state():392] send defer: 2
+2022-09-30 02:55:18,543 DEBUG   SenderThread:6202 [sender.py:send_request():249] send_request: poll_exit
+2022-09-30 02:55:18,543 DEBUG   SenderThread:6202 [sender.py:send():235] send: stats
+2022-09-30 02:55:18,544 DEBUG   HandlerThread:6202 [handler.py:handle_request():141] handle_request: defer
+2022-09-30 02:55:18,544 INFO    HandlerThread:6202 [handler.py:handle_request_defer():164] handle defer: 2
+2022-09-30 02:55:18,544 DEBUG   SenderThread:6202 [sender.py:send_request():249] send_request: defer
+2022-09-30 02:55:18,544 INFO    SenderThread:6202 [sender.py:send_request_defer():388] handle sender defer: 2
+2022-09-30 02:55:18,544 INFO    SenderThread:6202 [sender.py:transition_state():392] send defer: 3
+2022-09-30 02:55:18,544 DEBUG   HandlerThread:6202 [handler.py:handle_request():141] handle_request: defer
+2022-09-30 02:55:18,544 INFO    HandlerThread:6202 [handler.py:handle_request_defer():164] handle defer: 3
+2022-09-30 02:55:18,545 DEBUG   SenderThread:6202 [sender.py:send_request():249] send_request: defer
+2022-09-30 02:55:18,545 INFO    SenderThread:6202 [sender.py:send_request_defer():388] handle sender defer: 3
+2022-09-30 02:55:18,545 INFO    SenderThread:6202 [sender.py:transition_state():392] send defer: 4
+2022-09-30 02:55:18,545 DEBUG   HandlerThread:6202 [handler.py:handle_request():141] handle_request: defer
+2022-09-30 02:55:18,545 INFO    HandlerThread:6202 [handler.py:handle_request_defer():164] handle defer: 4
+2022-09-30 02:55:18,545 DEBUG   SenderThread:6202 [sender.py:send():235] send: summary
+2022-09-30 02:55:18,545 INFO    SenderThread:6202 [sender.py:_save_file():947] saving file wandb-summary.json with policy end
+2022-09-30 02:55:18,546 DEBUG   SenderThread:6202 [sender.py:send_request():249] send_request: defer
+2022-09-30 02:55:18,546 INFO    SenderThread:6202 [sender.py:send_request_defer():388] handle sender defer: 4
+2022-09-30 02:55:18,546 INFO    SenderThread:6202 [sender.py:transition_state():392] send defer: 5
+2022-09-30 02:55:18,546 DEBUG   HandlerThread:6202 [handler.py:handle_request():141] handle_request: defer
+2022-09-30 02:55:18,546 INFO    HandlerThread:6202 [handler.py:handle_request_defer():164] handle defer: 5
+2022-09-30 02:55:18,546 DEBUG   SenderThread:6202 [sender.py:send_request():249] send_request: defer
+2022-09-30 02:55:18,546 INFO    SenderThread:6202 [sender.py:send_request_defer():388] handle sender defer: 5
+2022-09-30 02:55:18,645 DEBUG   HandlerThread:6202 [handler.py:handle_request():141] handle_request: poll_exit
+2022-09-30 02:55:18,771 INFO    SenderThread:6202 [sender.py:transition_state():392] send defer: 6
+2022-09-30 02:55:18,771 DEBUG   SenderThread:6202 [sender.py:send_request():249] send_request: poll_exit
+2022-09-30 02:55:18,772 DEBUG   HandlerThread:6202 [handler.py:handle_request():141] handle_request: defer
+2022-09-30 02:55:18,772 INFO    HandlerThread:6202 [handler.py:handle_request_defer():164] handle defer: 6
+2022-09-30 02:55:18,772 DEBUG   SenderThread:6202 [sender.py:send_request():249] send_request: defer
+2022-09-30 02:55:18,772 INFO    SenderThread:6202 [sender.py:send_request_defer():388] handle sender defer: 6
+2022-09-30 02:55:18,772 INFO    SenderThread:6202 [dir_watcher.py:finish():283] shutting down directory watcher
+2022-09-30 02:55:18,873 DEBUG   HandlerThread:6202 [handler.py:handle_request():141] handle_request: poll_exit
+2022-09-30 02:55:19,391 INFO    Thread-7  :6202 [dir_watcher.py:_on_file_modified():230] file/dir modified: /mnt/data/object-localization/wandb/run-20220930_025504-2vluxemx/files/wandb-summary.json
+2022-09-30 02:55:19,391 INFO    SenderThread:6202 [dir_watcher.py:_on_file_modified():230] file/dir modified: /mnt/data/object-localization/wandb/run-20220930_025504-2vluxemx/files/output.log
+2022-09-30 02:55:19,392 INFO    SenderThread:6202 [dir_watcher.py:_on_file_modified():230] file/dir modified: /mnt/data/object-localization/wandb/run-20220930_025504-2vluxemx/files/config.yaml
+2022-09-30 02:55:19,392 INFO    SenderThread:6202 [dir_watcher.py:finish():313] scan: /mnt/data/object-localization/wandb/run-20220930_025504-2vluxemx/files
+2022-09-30 02:55:19,392 INFO    SenderThread:6202 [dir_watcher.py:finish():327] scan save: /mnt/data/object-localization/wandb/run-20220930_025504-2vluxemx/files/config.yaml config.yaml
+2022-09-30 02:55:19,392 INFO    SenderThread:6202 [dir_watcher.py:finish():327] scan save: /mnt/data/object-localization/wandb/run-20220930_025504-2vluxemx/files/conda-environment.yaml conda-environment.yaml
+2022-09-30 02:55:19,395 INFO    SenderThread:6202 [dir_watcher.py:finish():327] scan save: /mnt/data/object-localization/wandb/run-20220930_025504-2vluxemx/files/wandb-metadata.json wandb-metadata.json
+2022-09-30 02:55:19,395 INFO    SenderThread:6202 [dir_watcher.py:finish():327] scan save: /mnt/data/object-localization/wandb/run-20220930_025504-2vluxemx/files/output.log output.log
+2022-09-30 02:55:19,399 INFO    SenderThread:6202 [dir_watcher.py:finish():327] scan save: /mnt/data/object-localization/wandb/run-20220930_025504-2vluxemx/files/wandb-summary.json wandb-summary.json
+2022-09-30 02:55:19,402 INFO    SenderThread:6202 [dir_watcher.py:finish():327] scan save: /mnt/data/object-localization/wandb/run-20220930_025504-2vluxemx/files/requirements.txt requirements.txt
+2022-09-30 02:55:19,405 INFO    SenderThread:6202 [sender.py:transition_state():392] send defer: 7
+2022-09-30 02:55:19,405 DEBUG   SenderThread:6202 [sender.py:send_request():249] send_request: poll_exit
+2022-09-30 02:55:19,406 DEBUG   HandlerThread:6202 [handler.py:handle_request():141] handle_request: defer
+2022-09-30 02:55:19,409 INFO    HandlerThread:6202 [handler.py:handle_request_defer():164] handle defer: 7
+2022-09-30 02:55:19,410 DEBUG   SenderThread:6202 [sender.py:send_request():249] send_request: defer
+2022-09-30 02:55:19,410 INFO    SenderThread:6202 [sender.py:send_request_defer():388] handle sender defer: 7
+2022-09-30 02:55:19,410 INFO    SenderThread:6202 [file_pusher.py:finish():145] shutting down file pusher
+2022-09-30 02:55:19,507 DEBUG   HandlerThread:6202 [handler.py:handle_request():141] handle_request: poll_exit
+2022-09-30 02:55:19,507 DEBUG   SenderThread:6202 [sender.py:send_request():249] send_request: poll_exit
+2022-09-30 02:55:19,609 DEBUG   HandlerThread:6202 [handler.py:handle_request():141] handle_request: poll_exit
+2022-09-30 02:55:19,609 DEBUG   SenderThread:6202 [sender.py:send_request():249] send_request: poll_exit
+2022-09-30 02:55:19,711 DEBUG   HandlerThread:6202 [handler.py:handle_request():141] handle_request: poll_exit
+2022-09-30 02:55:19,711 DEBUG   SenderThread:6202 [sender.py:send_request():249] send_request: poll_exit
+2022-09-30 02:55:19,812 DEBUG   HandlerThread:6202 [handler.py:handle_request():141] handle_request: poll_exit
+2022-09-30 02:55:19,812 DEBUG   SenderThread:6202 [sender.py:send_request():249] send_request: poll_exit
+2022-09-30 02:55:19,914 DEBUG   HandlerThread:6202 [handler.py:handle_request():141] handle_request: poll_exit
+2022-09-30 02:55:19,914 DEBUG   SenderThread:6202 [sender.py:send_request():249] send_request: poll_exit
+2022-09-30 02:55:20,015 DEBUG   HandlerThread:6202 [handler.py:handle_request():141] handle_request: poll_exit
+2022-09-30 02:55:20,016 DEBUG   SenderThread:6202 [sender.py:send_request():249] send_request: poll_exit
+2022-09-30 02:55:20,117 DEBUG   HandlerThread:6202 [handler.py:handle_request():141] handle_request: poll_exit
+2022-09-30 02:55:20,117 DEBUG   SenderThread:6202 [sender.py:send_request():249] send_request: poll_exit
+2022-09-30 02:55:20,219 DEBUG   HandlerThread:6202 [handler.py:handle_request():141] handle_request: poll_exit
+2022-09-30 02:55:20,219 DEBUG   SenderThread:6202 [sender.py:send_request():249] send_request: poll_exit
+2022-09-30 02:55:20,320 DEBUG   HandlerThread:6202 [handler.py:handle_request():141] handle_request: poll_exit
+2022-09-30 02:55:20,320 DEBUG   SenderThread:6202 [sender.py:send_request():249] send_request: poll_exit
+2022-09-30 02:55:20,422 DEBUG   HandlerThread:6202 [handler.py:handle_request():141] handle_request: poll_exit
+2022-09-30 02:55:20,422 DEBUG   SenderThread:6202 [sender.py:send_request():249] send_request: poll_exit
+2022-09-30 02:55:20,523 DEBUG   HandlerThread:6202 [handler.py:handle_request():141] handle_request: poll_exit
+2022-09-30 02:55:20,524 DEBUG   SenderThread:6202 [sender.py:send_request():249] send_request: poll_exit
+2022-09-30 02:55:20,625 DEBUG   HandlerThread:6202 [handler.py:handle_request():141] handle_request: poll_exit
+2022-09-30 02:55:20,625 DEBUG   SenderThread:6202 [sender.py:send_request():249] send_request: poll_exit
+2022-09-30 02:55:20,727 DEBUG   HandlerThread:6202 [handler.py:handle_request():141] handle_request: poll_exit
+2022-09-30 02:55:20,727 DEBUG   SenderThread:6202 [sender.py:send_request():249] send_request: poll_exit
+2022-09-30 02:55:20,797 INFO    Thread-18 :6202 [upload_job.py:push():137] Uploaded file /mnt/data/object-localization/wandb/run-20220930_025504-2vluxemx/files/wandb-summary.json
+2022-09-30 02:55:20,808 INFO    Thread-17 :6202 [upload_job.py:push():137] Uploaded file /mnt/data/object-localization/wandb/run-20220930_025504-2vluxemx/files/output.log
+2022-09-30 02:55:20,823 INFO    Thread-15 :6202 [upload_job.py:push():137] Uploaded file /mnt/data/object-localization/wandb/run-20220930_025504-2vluxemx/files/config.yaml
+2022-09-30 02:55:20,828 DEBUG   HandlerThread:6202 [handler.py:handle_request():141] handle_request: poll_exit
+2022-09-30 02:55:20,829 DEBUG   SenderThread:6202 [sender.py:send_request():249] send_request: poll_exit
+2022-09-30 02:55:20,832 INFO    Thread-19 :6202 [upload_job.py:push():137] Uploaded file /mnt/data/object-localization/wandb/run-20220930_025504-2vluxemx/files/requirements.txt
+2022-09-30 02:55:20,859 INFO    Thread-16 :6202 [upload_job.py:push():137] Uploaded file /mnt/data/object-localization/wandb/run-20220930_025504-2vluxemx/files/conda-environment.yaml
+2022-09-30 02:55:20,930 DEBUG   HandlerThread:6202 [handler.py:handle_request():141] handle_request: poll_exit
+2022-09-30 02:55:20,930 DEBUG   SenderThread:6202 [sender.py:send_request():249] send_request: poll_exit
+2022-09-30 02:55:21,031 DEBUG   HandlerThread:6202 [handler.py:handle_request():141] handle_request: poll_exit
+2022-09-30 02:55:21,032 DEBUG   SenderThread:6202 [sender.py:send_request():249] send_request: poll_exit
+2022-09-30 02:55:21,059 INFO    Thread-6  :6202 [sender.py:transition_state():392] send defer: 8
+2022-09-30 02:55:21,060 DEBUG   HandlerThread:6202 [handler.py:handle_request():141] handle_request: defer
+2022-09-30 02:55:21,060 INFO    HandlerThread:6202 [handler.py:handle_request_defer():164] handle defer: 8
+2022-09-30 02:55:21,060 DEBUG   SenderThread:6202 [sender.py:send_request():249] send_request: defer
+2022-09-30 02:55:21,060 INFO    SenderThread:6202 [sender.py:send_request_defer():388] handle sender defer: 8
+2022-09-30 02:55:21,119 INFO    SenderThread:6202 [sender.py:transition_state():392] send defer: 9
+2022-09-30 02:55:21,120 DEBUG   HandlerThread:6202 [handler.py:handle_request():141] handle_request: defer
+2022-09-30 02:55:21,120 INFO    HandlerThread:6202 [handler.py:handle_request_defer():164] handle defer: 9
+2022-09-30 02:55:21,120 DEBUG   SenderThread:6202 [sender.py:send_request():249] send_request: defer
+2022-09-30 02:55:21,120 INFO    SenderThread:6202 [sender.py:send_request_defer():388] handle sender defer: 9
+2022-09-30 02:55:21,120 INFO    SenderThread:6202 [sender.py:transition_state():392] send defer: 10
+2022-09-30 02:55:21,121 DEBUG   HandlerThread:6202 [handler.py:handle_request():141] handle_request: defer
+2022-09-30 02:55:21,121 DEBUG   SenderThread:6202 [sender.py:send():235] send: final
+2022-09-30 02:55:21,121 INFO    HandlerThread:6202 [handler.py:handle_request_defer():164] handle defer: 10
+2022-09-30 02:55:21,121 DEBUG   SenderThread:6202 [sender.py:send():235] send: footer
+2022-09-30 02:55:21,121 DEBUG   SenderThread:6202 [sender.py:send_request():249] send_request: defer
+2022-09-30 02:55:21,121 INFO    SenderThread:6202 [sender.py:send_request_defer():388] handle sender defer: 10
+2022-09-30 02:55:21,133 DEBUG   HandlerThread:6202 [handler.py:handle_request():141] handle_request: poll_exit
+2022-09-30 02:55:21,133 DEBUG   SenderThread:6202 [sender.py:send_request():249] send_request: poll_exit
+2022-09-30 02:55:21,133 INFO    SenderThread:6202 [file_pusher.py:join():150] waiting for file pusher
+2022-09-30 02:55:21,520 DEBUG   HandlerThread:6202 [handler.py:handle_request():141] handle_request: sampled_history
+2022-09-30 02:55:21,521 DEBUG   HandlerThread:6202 [handler.py:handle_request():141] handle_request: get_summary
+2022-09-30 02:55:21,521 DEBUG   HandlerThread:6202 [handler.py:handle_request():141] handle_request: shutdown
+2022-09-30 02:55:21,521 INFO    HandlerThread:6202 [handler.py:finish():778] shutting down handler
+2022-09-30 02:55:22,121 INFO    WriterThread:6202 [datastore.py:close():281] close: /mnt/data/object-localization/wandb/run-20220930_025504-2vluxemx/run-2vluxemx.wandb
+2022-09-30 02:55:22,419 INFO    SenderThread:6202 [sender.py:finish():1078] shutting down sender
+2022-09-30 02:55:22,419 INFO    SenderThread:6202 [file_pusher.py:finish():145] shutting down file pusher
+2022-09-30 02:55:22,419 INFO    SenderThread:6202 [file_pusher.py:join():150] waiting for file pusher
+2022-09-30 02:55:22,420 INFO    MainThread:6202 [internal.py:handle_exit():82] Internal process exited

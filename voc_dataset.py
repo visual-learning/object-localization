@@ -160,9 +160,27 @@ class VOCDataset(Dataset):
             3. Make sure to return only the top_n proposals based on proposal confidence ("boxScores")!
             4. You may have to write a custom collate_fn since some of the attributes below may be variable in number for each data point
         """
-        proposals = None
+        proposals = {}
+
+        top_scores = self.roi_data['boxScores'][0][index][0:self.top_n]
+        top_boxes = self.roi_data['boxes'][0][index][0:self.top_n]
+
+        normalized_boxes = []
+
+        for box in top_boxes:
+            ymin, xmin, ymax, xmax  = box
+
+            xmin = int(xmin) / width
+            ymin = int(ymin) / height
+            xmax = int(xmax) / width
+            ymax = int(ymax) / height
+            normalized_boxes.append([xmin, ymin, xmax, ymax])
 
 
+        proposals['top_scores'] = top_scores
+        proposals['top_boxes'] = normalized_boxes
+
+        
         ret = {}
         ret['image'] = img
         ret['label'] = label

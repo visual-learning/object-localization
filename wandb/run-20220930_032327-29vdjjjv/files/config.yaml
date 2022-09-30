@@ -1,0 +1,50 @@
+wandb_version: 1
+
+_wandb:
+  desc: null
+  value:
+    bounding_box/class_labels:
+      bounding box_wandb_delimeter_predictions:
+        key: bounding box_wandb_delimeter_predictions
+        type: bounding_box/class_labels
+        value:
+          '0': aeroplane
+          '1': bicycle
+          '10': diningtable
+          '11': dog
+          '12': horse
+          '13': motorbike
+          '14': person
+          '15': pottedplant
+          '16': sheep
+          '17': sofa
+          '18': train
+          '19': tvmonitor
+          '2': bird
+          '3': boat
+          '4': bottle
+          '5': bus
+          '6': car
+          '7': cat
+          '8': chair
+          '9': cow
+      top n roi boxes_wandb_delimeter_predictions:
+        key: top n roi boxes_wandb_delimeter_predictions
+        type: bounding_box/class_labels
+        value:
+          '0': class_0
+    cli_version: 0.12.11
+    framework: torch
+    is_jupyter_run: true
+    is_kaggle_kernel: false
+    python_version: 3.7.12
+    start_time: 1664508207
+    t:
+      1:
+      - 1
+      - 41
+      4: 3.7.12
+      5: 0.12.11
+      8:
+      - 1
+      - 5

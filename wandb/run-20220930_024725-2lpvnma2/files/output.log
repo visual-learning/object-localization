@@ -1,0 +1,274 @@
+prevoius 0
+after 0.0
+prevoius 0
+after 0.0
+prevoius 0
+after 0.0
+prevoius 0
+after 0.0
+prevoius 0
+after 0.0
+prevoius 0
+after 0.0
+prevoius 0
+after 0.0
+prevoius 0
+after 0.0
+prevoius 0
+after 0.0
+prevoius 0
+after 0.0
+[[0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]]
+prevoius 244
+after 0.6506666666666666
+prevoius 190
+after 0.5066666666666667
+prevoius 269
+after 0.7173333333333334
+prevoius 176
+after 0.4693333333333333
+prevoius 200
+after 0.5333333333333333
+prevoius 189
+after 0.504
+prevoius 205
+after 0.5466666666666666
+prevoius 210
+after 0.56
+prevoius 180
+after 0.48
+prevoius 188
+after 0.5013333333333333
+[[0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 1]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 1]]
+prevoius 1
+after 0.002680965147453083
+prevoius 191
+after 0.5120643431635389
+prevoius 1
+after 0.002680965147453083
+prevoius 191
+after 0.5120643431635389
+prevoius 1
+after 0.002680965147453083
+prevoius 177
+after 0.4745308310991957
+prevoius 116
+after 0.3109919571045576
+prevoius 181
+after 0.48525469168900803
+prevoius 1
+after 0.002680965147453083
+prevoius 186
+after 0.49865951742627346
+result is [[0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 1]
+ [0 0 0 0]]
+prevoius 0
+after 0.0
+prevoius 0
+after 0.0
+prevoius 0
+after 0.0
+prevoius 0
+after 0.0
+prevoius 0
+after 0.0
+prevoius 0
+after 0.0
+prevoius 0
+after 0.0
+prevoius 0
+after 0.0
+prevoius 0
+after 0.0
+prevoius 0
+after 0.0
+result is [[0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]]
+[18]
+prevoius 0
+after 0.0
+prevoius 0
+after 0.0
+prevoius 0
+after 0.0
+prevoius 0
+after 0.0
+prevoius 0
+after 0.0
+prevoius 0
+after 0.0
+prevoius 0
+after 0.0
+prevoius 0
+after 0.0
+prevoius 0
+after 0.0
+prevoius 0
+after 0.0
+result is [[0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]]
+train
+prevoius 0
+after 0.0
+prevoius 0
+after 0.0
+prevoius 0
+after 0.0
+prevoius 0
+after 0.0
+prevoius 0
+after 0.0
+prevoius 0
+after 0.0
+prevoius 0
+after 0.0
+prevoius 0
+after 0.0
+prevoius 0
+after 0.0
+prevoius 0
+after 0.0
+result is [[0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]]
+[[0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]]
+train
+prevoius 0
+after 0.0
+prevoius 0
+after 0.0
+prevoius 0
+after 0.0
+prevoius 0
+after 0.0
+prevoius 0
+after 0.0
+prevoius 0
+after 0.0
+prevoius 0
+after 0.0
+prevoius 0
+after 0.0
+prevoius 0
+after 0.0
+prevoius 0
+after 0.0
+result is [[0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]]
+[[0.13088822]
+ [0.12430349]
+ [0.12223175]
+ [0.11191574]
+ [0.1118995 ]
+ [0.10892694]
+ [0.10579894]
+ [0.10082841]
+ [0.0935593 ]
+ [0.09345848]]
+train
+prevoius 0
+after 0.0
+prevoius 0
+after 0.0
+prevoius 0
+after 0.0
+prevoius 0
+after 0.0
+prevoius 0
+after 0.0
+prevoius 0
+after 0.0
+prevoius 0
+after 0.0
+prevoius 0
+after 0.0
+prevoius 0
+after 0.0
+prevoius 0
+after 0.0
+result is [[0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]
+ [0 0 0 0]]
+[[0.13088822]
+ [0.12430349]
+ [0.12223175]
+ [0.11191574]
+ [0.1118995 ]
+ [0.10892694]
+ [0.10579894]
+ [0.10082841]
+ [0.0935593 ]
+ [0.09345848]]

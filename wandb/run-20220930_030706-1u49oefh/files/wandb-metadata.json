@@ -1,0 +1,32 @@
+{
+    "os": "Linux-5.10.135-122.509.amzn2.x86_64-x86_64-with-glibc2.10",
+    "python": "3.7.12",
+    "heartbeatAt": "2022-09-30T03:07:12.143621",
+    "startedAt": "2022-09-30T03:07:06.308292",
+    "docker": null,
+    "cpu_count": 4,
+    "cuda": null,
+    "args": [
+        "--ip=127.0.0.1",
+        "--stdin=9003",
+        "--control=9001",
+        "--hb=9000",
+        "--Session.signature_scheme=\"hmac-sha256\"",
+        "--Session.key=b\"a5701e9c-614d-49de-9144-d18b932395a2\"",
+        "--shell=9002",
+        "--transport=\"tcp\"",
+        "--iopub=9004",
+        "--f=/home/ec2-user/.local/share/jupyter/runtime/kernel-v2-4665FsuIrcefnRh2.json"
+    ],
+    "state": "running",
+    "program": "<python with no main file>",
+    "git": {
+        "remote": "https://github.com/woooodyye/object-localization.git",
+        "commit": "b59a388361a803821e550967e17cef4bd5bcaf16"
+    },
+    "email": null,
+    "root": "/mnt/data/object-localization",
+    "host": "ip-172-31-26-12.us-east-2.compute.internal",
+    "username": "ec2-user",
+    "executable": "/home/ec2-user/anaconda3/envs/vlr/bin/python"
+}
