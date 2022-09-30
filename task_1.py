@@ -133,7 +133,7 @@ def main():
     print(model)
 
     model.features = torch.nn.DataParallel(model.features)
-    model.cuda()
+    # model.cuda()
 
     # also use an LR scheduler to decay LR by 10 every 30 epochs
     criterion = nn.BCELoss() #using binary cross entropy loss function
@@ -156,7 +156,7 @@ def main():
         else:
             print("=> no checkpoint found at '{}'".format(args.resume))
 
-    cudnn.benchmark = True
+    # cudnn.benchmark = True
 
     # Data loading code
 
@@ -229,29 +229,41 @@ def train(train_loader, model, criterion, optimizer, epoch):
 
         # TODO (Q1.1): Get inputs from the data dict
         # Convert inputs to cuda if training on GPU
-        target = data[i]['image']
+        target = data['image']
+        labels = data['label']
 
         # TODO (Q1.1): Get output from model
         imoutput = model(target)
 
+        # print("before max pooling imoutput size is ", imoutput.size())
         # TODO (Q1.1): Perform any necessary operations on the output
         #perform 1 global maxpooling
         imoutput = F.max_pool2d(imoutput, kernel_size=imoutput.size()[2:])
+        #squeze extra dimensions
+        imoutput = torch.squeeze(imoutput, 3)
+        imoutput = torch.squeeze(imoutput, 2)
 
+        imoutput= torch.sigmoid(imoutput)
 
         # TODO (Q1.1): Compute loss using ``criterion``
-        loss = criterion
+        loss = criterion(imoutput, labels)
 
         # measure metrics and record loss
         m1 = metric1(imoutput.data, target)
         m2 = metric2(imoutput.data, target)
-        losses.update(loss.item(), input.size(0))
-        avg_m1.update(m1)
-        avg_m2.update(m2)
+        # losses.update(loss.item(), input.size(0))
+        losses.update(loss.item())
+        # avg_m1.update(m1)
+        # avg_m2.update(m2)
 
         # TODO (Q1.1): compute gradient and perform optimizer step
+        #zero my gradient
         optimizer.zero_grad()
+
+        #compute gradients and do backprop
         loss.backward()
+
+        #adjust learning weights
         optimizer.step()
 
         # measure elapsed time

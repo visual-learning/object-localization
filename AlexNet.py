@@ -59,13 +59,23 @@ def localizer_alexnet(pretrained=False, **kwargs):
         pretrained (bool): If True, returns a model pre-trained on ImageNet
     """
     model = LocalizerAlexNet(**kwargs)
-    # TODO (Q1.3): Initialize weights based on whether it is pretrained or not
+    print("pretrained is ", pretrained)
     if pretrained:
-        model = models.AlexNet(pretrained = True)
-        maxpool_layer = model.children[-2]
-        nn.init.xavier_normal(maxpool_layer)
-        # drop out layer doesn't need to get initialized ? 
-        
+        alexnet = models.alexnet(pretrained = True)
+        #xavier initialization of feature layers
+        for feature in model.features:
+            if hasattr(feature,'weight'):
+                nn.init.xavier_normal_(feature.weight)
+        #xavier initialization of classification layers
+        for layer in model.classifier:
+            if hasattr(layer, 'weight'):
+                nn.init.xavier_normal_(layer.weight)
+
+        #use pretrained weights from alexnex up to the conv5 layer
+        for k in range(4):
+            if hasattr(model.features[k], 'weight'):
+                model.features[k].weight = alexnet.features[k].weight
+            
     return model
 
 
