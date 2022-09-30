@@ -135,10 +135,11 @@ def main():
     model.features = torch.nn.DataParallel(model.features)
     model.cuda()
 
-    # TODO (Q1.1): define loss function (criterion) and optimizer from [1]
     # also use an LR scheduler to decay LR by 10 every 30 epochs
-    criterion = None
-    optimizer = None
+    criterion = nn.BCELoss() #using binary cross entropy loss function
+    optimizer = torch.optim.SGD(model.parameters(), lr = 0.01, momentum = 0.9)
+    #using stochastic gradient descent with lr = 0.01 and moementum of 0.9 
+    # as indicated in the paper
 
 
     # optionally resume from a checkpoint
@@ -159,12 +160,9 @@ def main():
 
     # Data loading code
 
-    # TODO (Q1.1): Create Datasets and Dataloaders using VOCDataset
-    # Ensure that the sizes are 512x512
-    # Also ensure that data directories are correct
-    # The ones use for testing by TAs might be different
-    train_dataset = None
-    val_dataset = None
+    #Create VOCDataset with trainval and test val and setting image size to be 512x512
+    train_dataset = VOCDataset(split = 'trainval', image_size= 512)
+    val_dataset = VOCDataset(split = 'test', image_size = 512)
     train_sampler = None
 
     train_loader = torch.utils.data.DataLoader(
@@ -231,15 +229,18 @@ def train(train_loader, model, criterion, optimizer, epoch):
 
         # TODO (Q1.1): Get inputs from the data dict
         # Convert inputs to cuda if training on GPU
-        target = None
+        target = data[i]['image']
 
         # TODO (Q1.1): Get output from model
-        imoutput = None
+        imoutput = model(target)
 
         # TODO (Q1.1): Perform any necessary operations on the output
+        #perform 1 global maxpooling
+        imoutput = F.max_pool2d(imoutput, kernel_size=imoutput.size()[2:])
+
 
         # TODO (Q1.1): Compute loss using ``criterion``
-        loss = None
+        loss = criterion
 
         # measure metrics and record loss
         m1 = metric1(imoutput.data, target)
@@ -249,7 +250,9 @@ def train(train_loader, model, criterion, optimizer, epoch):
         avg_m2.update(m2)
 
         # TODO (Q1.1): compute gradient and perform optimizer step
-
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
 
         # measure elapsed time
         batch_time.update(time.time() - end)
@@ -290,15 +293,15 @@ def validate(val_loader, model, criterion, epoch=0):
 
         # TODO (Q1.1): Get inputs from the data dict
         # Convert inputs to cuda if training on GPU
-        target = None
+        target = data[i]['image']
 
         # TODO (Q1.1): Get output from model
-        imoutput = None
+        imoutput = model(target)
 
         # TODO (Q1.1): Perform any necessary functions on the output
-
+        imoutput = F.max_pool2d(imoutput, kernel_size=imoutput.size()[2:])
         # TODO (Q1.1): Compute loss using ``criterion``
-        loss = None
+        loss = criterion
 
         # measure metrics and record loss
         m1 = metric1(imoutput.data, target)
