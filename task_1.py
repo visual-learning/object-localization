@@ -118,6 +118,32 @@ parser.add_argument('--vis', action='store_true')
 
 best_prec1 = 0
 
+def collate_batch(batch):
+    # ret['image'] = img
+    #     ret['label'] = label
+    #     ret['wgt'] = wgt
+    #     ret['rois'] = proposals
+    #     ret['gt_boxes'] = gt_boxes
+    #     ret['gt_classes'] = gt_class_list
+    # maxBoxes = 0;
+    # for ret in batch:
+    #     numBoxes = len(ret['gt_classes'])
+    #     if numBoxes >= maxBoxes:
+    #         maxBoxes = numBoxes
+    # for ret in batch:
+    #     numBoxes = len(ret['gt_classes'])
+    #     diff = maxBoxes- numBoxes
+    #     for i in range(diff):
+    #         ret['gt_classes'].append(0)
+    #         ret['gt_boxes'].append([0,0,0,0])
+    # return batch
+    return [
+        torch.stack([b['image'] for b in batch]),
+        torch.stack([b['label'] for b in batch]),
+        # torch.stack([b['wgt'] for b in batch]),
+        # torch.stack([b['gt_boxes'] for b in batch]),
+        # torch.stack([b['gt_classes'] for b in batch]),
+        ]
 
 def main():
     global args, best_prec1
@@ -133,7 +159,7 @@ def main():
     print(model)
 
     model.features = torch.nn.DataParallel(model.features)
-    # model.cuda()
+    model.cuda()
 
     # also use an LR scheduler to decay LR by 10 every 30 epochs
     criterion = nn.BCELoss() #using binary cross entropy loss function
@@ -172,7 +198,8 @@ def main():
         num_workers=args.workers,
         pin_memory=True,
         sampler=train_sampler,
-        drop_last=True)
+        drop_last=True,
+        collate_fn= collate_batch)
 
     val_loader = torch.utils.data.DataLoader(
         val_dataset,
@@ -180,7 +207,8 @@ def main():
         shuffle=False,
         num_workers=args.workers,
         pin_memory=True,
-        drop_last=True)
+        drop_last=True,
+        collate_fn= collate_batch)
 
     if args.evaluate:
         validate(val_loader, model, criterion)
@@ -229,8 +257,8 @@ def train(train_loader, model, criterion, optimizer, epoch):
 
         # TODO (Q1.1): Get inputs from the data dict
         # Convert inputs to cuda if training on GPU
-        target = data['image']
-        labels = data['label']
+        target = data[0].cuda()
+        labels = data[1].cuda()
 
         # TODO (Q1.1): Get output from model
         imoutput = model(target)
@@ -305,22 +333,27 @@ def validate(val_loader, model, criterion, epoch=0):
 
         # TODO (Q1.1): Get inputs from the data dict
         # Convert inputs to cuda if training on GPU
-        target = data[i]['image']
+        target = data[0].cuda()
+        labels = data[1].cuda()
 
         # TODO (Q1.1): Get output from model
         imoutput = model(target)
 
         # TODO (Q1.1): Perform any necessary functions on the output
         imoutput = F.max_pool2d(imoutput, kernel_size=imoutput.size()[2:])
+        imoutput = torch.squeeze(imoutput, 3)
+        imoutput = torch.squeeze(imoutput, 2)
+
+        imoutput= torch.sigmoid(imoutput)
         # TODO (Q1.1): Compute loss using ``criterion``
-        loss = criterion
+        loss = criterion(imoutput, labels)
 
         # measure metrics and record loss
         m1 = metric1(imoutput.data, target)
         m2 = metric2(imoutput.data, target)
-        losses.update(loss.item(), input.size(0))
-        avg_m1.update(m1)
-        avg_m2.update(m2)
+        # losses.update(loss.item(), input.size(0))
+        # avg_m1.update(m1)
+        # avg_m2.update(m2)
 
         # measure elapsed time
         batch_time.update(time.time() - end)
